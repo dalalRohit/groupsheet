@@ -1,1 +1,9 @@
 node_modules
+*.env
+play/
+
+/.vscode
+/backend/models/users.data.json
+/backend/models/tasks.data.json
+/backend/models/groups.data.json
+/backend/models/feed-data.js

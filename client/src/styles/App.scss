@@ -1,0 +1,135 @@
+//https://www.geeksforgeeks.org/how-to-design-full-width-dropdown-navbar-using-bootstrap/
+.dropdown {
+    position: static !important;
+}
+
+.dropdown-menu {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    margin-top: 0px !important;
+    width: 75% !important;
+    max-width: 100%;
+}
+
+.dropdown-item {
+    word-wrap: break-word;
+}
+
+//GroupList.js
+.groups {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: lightblue;
+    height: 100%;
+}
+
+//AppBar.js
+.appbar {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: lightseagreen;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .2rem;
+
+    .icons {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            font-size: 1rem;
+            margin: 0;
+        }
+    }
+
+    .caret {
+        background: none;
+        border: none;
+        color: inherit;
+
+    }
+
+    .notifs {
+        width: 90px;
+        max-height: 200px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+
+// Group.js
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .credit {
+        background-color: lightgreen;
+    }
+
+    .debit {
+        background-color: red;
+    }
+}
+
+//Login.js
+.user-form {
+    padding: 1rem .3rem 1rem .3rem;
+    width: 70%;
+    margin: 0 15% 0 15%;
+
+    @media screen and (max-width:768px) {
+        margin: 0;
+        width: 100%;
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 1rem 0;
+
+        label {
+            width: 100%;
+        }
+    }
+
+    .field-error {
+        width: 100%;
+        color: red;
+    }
+}
+
+//Modal.js
+.modal-body {
+    margin: 0;
+    padding: 0;
+}
+
+//CreateGroup.js
+.group-form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        margin: .5rem .2rem .5rem .2rem;
+        padding: .5rem;
+
+        label {
+            margin-right: 5rem;
+        }
+    }
+}

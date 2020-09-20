@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './styles/main.scss'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//Components
+import Home from './components/pages/Home'
+import Main from './components/pages/Main'
+import Layout from './components/Layout/layout'
+import Group from './components/pages/Group'
+import Login from './components/pages/Login'
+import Register from './components/pages/Register'
+import Logout from './components/pages/Logout'
+class App extends Component {
+	render() {
+		return (
+			<Switch>
+				<Route path="/login" exact>
+					<Login />
+				</Route>
+				<Route path="/register" exact>
+					<Register />
+				</Route>
+				<Route path="/app" exact>
+					<Main />
+				</Route>
+				<Route path="/home">
+					<Home />
+				</Route>
+
+				<Route path="/group/:id" exact>
+					<Group />
+				</Route>
+				<Route path="/logout" exact>
+					<Logout />
+				</Route>
+				<Route path="/">
+					<Redirect to="/home" />
+				</Route>
+			</Switch>
+		)
+	}
 }
 
-export default App;
+export default App
