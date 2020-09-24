@@ -5,7 +5,6 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 //Components
 import Home from './components/pages/Home'
 import Main from './components/pages/Main'
-import Layout from './components/Layout/layout'
 import Group from './components/pages/Group'
 import Login from './components/pages/Login'
 import Register from './components/pages/Register'

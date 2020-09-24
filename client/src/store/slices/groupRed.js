@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 export const initialState = {
-	process: false,
 	groups: [],
+	fetching: false,
+	group: null,
 }
 
 export const grpSlice = createSlice({
@@ -10,21 +11,22 @@ export const grpSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		set: (state, payload) => {
+			console.log('set', payload)
+			state.fetching = false
 			state.groups = payload.payload
 		},
-		adding: (state) => {
-			state.process = true
+		fetching: (state) => {
+			state.fetching = true
 		},
-		added: (state) => {
-			state.process = false
-		},
-		fail: (state) => {
-			state.process = false
+		single: (state, payload) => {
+			console.log('single', payload)
+			state.fetching = false
+			state.group = payload.payload
 		},
 	},
 })
 
-export const { added, adding, fail, set } = grpSlice.actions
+export const { set, fetching, single } = grpSlice.actions
 export const grpSelector = (state) => state.groups
 export default grpSlice.reducer
 
@@ -32,26 +34,22 @@ export default grpSlice.reducer
 ALL ASYNC ACTION CREATORS 
 ===================================*/
 export const getGroupsForUser = () => async (dispatch) => {
+	dispatch(fetching())
 	axios
-		.get('/groups', { withCredentials: true })
+		.get('/groups/all', { withCredentials: true })
 		.then((res) => {
 			dispatch(set(res.data))
 		})
 		.catch((err) => {})
 }
 
-export const addGroup = () => (dispatch) => {
-	const data = {
-		name: 'Chelsea Group',
-		onBudget: false,
-	}
-	dispatch(adding())
+export const getGroup = (id) => async (dispatch) => {
+	dispatch(fetching())
+
 	axios
-		.post('/groups/add', { data }, { withCredentials: true })
+		.get(`/groups/${id}`)
 		.then((res) => {
-			dispatch(added())
+			dispatch(single(res.data))
 		})
-		.catch((err) => {
-			dispatch(fail())
-		})
+		.catch((err) => {})
 }

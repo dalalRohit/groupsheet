@@ -124,4 +124,5 @@ const authMiddleware = async (req, res, next) => {
 
 module.exports = {
 	auth: authMiddleware,
+	client: client,
 }

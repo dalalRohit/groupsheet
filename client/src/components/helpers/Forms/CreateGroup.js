@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik'
-import { grpSelector, addGroup } from './../../../store/slices/groupRed'
 import { useDispatch, useSelector } from 'react-redux'
 import { Label, Input, InputGroup, Button, CustomInput } from 'reactstrap'
 export default function CreateGroup(props) {
@@ -21,7 +20,7 @@ export default function CreateGroup(props) {
 
 	const dispatch = useDispatch()
 	return (
-		<form className="group-form" onSubmit={() => dispatch(addGroup())}>
+		<form className="group-form">
 			<InputGroup>
 				<Label>Group Name</Label>
 				<Input type="text" name="name" bsSize="sm" onChange={changeInput} />
@@ -45,7 +44,7 @@ export default function CreateGroup(props) {
 				<Label>Enter username to add</Label>
 				<Input type="text" />
 			</InputGroup>
-			<Button onClick={() => dispatch(addGroup())}>Create group</Button>
+			<Button>Create group</Button>
 		</form>
 	)
 }

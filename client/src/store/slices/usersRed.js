@@ -89,10 +89,11 @@ ALL ASYNC ACTION CREATORS
 
 //https://medium.com/dev-genius/async-api-fetching-with-redux-toolkit-2020-8623ff9da267
 
-export const loginUser = () => async (dispatch) => {
+export const loginUser = (data) => async (dispatch) => {
+	console.log(data)
 	dispatch(auth_start())
 	axios
-		.get('/users/flogin')
+		.post('/users/flogin', { username: data.username, password: data.password })
 		.then((res) => {
 			dispatch(login(res.data.user))
 		})

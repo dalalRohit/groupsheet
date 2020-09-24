@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { checkAuth, userSelector } from './../../store/slices/usersRed'
+import { selectors, creators } from './../../store/slices/rootReducer'
 import AppBar from './../helpers/AppBar'
+import Spin from './../UI/Spin'
 import './../../styles/App.scss'
 const AppLayout = (props) => {
 	const dispatch = useDispatch()
-	const { auth, user_fetching } = useSelector(userSelector)
+	const { auth, user_fetching } = useSelector(selectors.userSelector)
 	useEffect(() => {
-		dispatch(checkAuth())
+		dispatch(creators.checkAuth())
 	}, [])
-	if (user_fetching) return 'loading'
+	// if (user_fetching) return <Spin show={user_fetching} />
 	return auth ? (
 		<>
 			<AppBar brand={props.brand} />

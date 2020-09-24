@@ -1,35 +1,34 @@
 var express = require('express')
 var router = express.Router()
 const { auth } = require('./../utils/middleware')
-const Group = require('./../models/Group')
-const User = require('./../models/User')
-router.get('/', auth, (req, res, next) => {
-	const { id } = req.user
-	User.findOne({ _id: id }).then((user) => {
-		res.status(200).json({ groups: user['groups'] })
-	})
-})
+const pool = require('./../db/db')
+const helpers = require('./../utils/queries')
 
-router.post('/add', auth, (req, res, next) => {
-	let { data } = req.body
-	//name onBudget
-	data['createdBy'] = req.user.id
-	data['onBudget'] = data.onBudget
-	data['budgetAmt'] = data.onBudget ? data.budgetAmt : 0
+router.get('/:id', auth, (req, res, next) => {
+	let { id } = req.params
 
-	const group = new Group(data)
-	group['users'].push({ userId: req.user.id })
-	group
-		.save()
-		.then(async (grp) => {
-			User.findOne({ _id: req.user.id }).then(async (user) => {
-				user['groups'].push({ grpId: grp._id })
-				await user.save()
+	if (id !== 'all') {
+		pool
+			.query(helpers.getGroup(), [id])
+			.then((data) => {
+				const grp = data.rows
+				res.status(200).json(grp)
 			})
-			return res.status(201).json({ add: true })
-		})
-		.catch((err) => {
-			res.status(500).json({ add: false })
-		})
+			.catch((err) => {
+				return res.status(500).json({ query: false, err })
+			})
+	} else {
+		pool
+			.query(helpers.groupsByUser(), [req.user.id])
+			.then((data) => {
+				const groups = data.rows
+				res.status(200).json(groups)
+			})
+			.catch((err) => {
+				res.send(err)
+			})
+	}
 })
+
+router.post('/add', auth, (req, res, next) => {})
 module.exports = router

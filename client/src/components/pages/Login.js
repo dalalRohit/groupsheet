@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from './../Layout/layout'
+import Spin from './../UI/Spin'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { loginUser, userSelector } from './../../store/slices/usersRed'
@@ -14,7 +15,7 @@ export default function Login() {
 		return <Redirect to="/app" />
 	}
 	return loading ? (
-		'loading'
+		<Spin show={loading} />
 	) : (
 		<Layout>
 			<UserForm login={true} />
