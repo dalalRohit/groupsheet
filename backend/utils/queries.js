@@ -34,11 +34,14 @@ const getGroup = () => {
 //TASK QUERIES
 //============================
 const addTask = () => {
-	return `INSERT INTO "task" (type,amount,user_id,group_id) VALUES ($1,$2,$3,$4) RETURNING *`
+	return `INSERT INTO "task" (type,amount,user_id,group_id,title) VALUES ($1,$2,$3,$4,$5) RETURNING *`
 }
 
 const getTasks = () => {
-	return `SELECT * FROM "task" WHERE group_id = $1`
+	return `
+		SELECT "task".* , "user".username FROM "task"
+		JOIN "user" ON "task".user_id = "user".user_id
+		WHERE "task".group_id = $1 ORDER BY date`
 }
 
 //============================
@@ -46,6 +49,10 @@ const getTasks = () => {
 //============================
 const linkGrp = () => {
 	return `INSERT INTO "user_groups" (user_id,group_id) VALUES ($1,$2) RETURNING *`
+}
+
+const isUserInGroup = () => {
+	return `SELECT* FROM "user_groups" WHERE user_id = $1 AND group_id = $2`
 }
 
 const helpers = {
@@ -56,11 +63,14 @@ const helpers = {
 	//group
 	addGroup,
 	groupsByUser,
-	linkGrp,
 	getGroup,
 
 	//task
 	addTask,
 	getTasks,
+
+	//user groups
+	linkGrp,
+	isUserInGroup,
 }
 module.exports = helpers

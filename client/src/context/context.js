@@ -53,7 +53,6 @@ class ThemeProvider extends React.Component {
 
 	render() {
 		const { children } = this.props
-		console.log(children)
 		const { dark, width } = this.state
 		return (
 			<ThemeContext.Provider
@@ -63,7 +62,7 @@ class ThemeProvider extends React.Component {
 					width,
 				}}
 			>
-				<h1>ksjhdkj</h1>
+				{children}
 			</ThemeContext.Provider>
 		)
 	}

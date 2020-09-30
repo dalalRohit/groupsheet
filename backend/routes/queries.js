@@ -46,10 +46,17 @@ router.post('/group', (req, res) => {
 })
 
 router.post('/task', async (req, res) => {
-	const { type, amount, user_id, group_id } = req.body
+	const { type, amount, user_id, group_id, title } = req.body
+	const { rows } = await pool.query(helpers.isUserInGroup(), [
+		user_id,
+		group_id,
+	])
 
+	if (rows.length === 0) {
+		return res.status(400).json({ query: false, msg: 'Invalid transaction' })
+	}
 	pool
-		.query(helpers.addTask(), [type, amount, user_id, group_id])
+		.query(helpers.addTask(), [type, amount, user_id, group_id, title])
 		.then((task) => {
 			res.send(task)
 		})

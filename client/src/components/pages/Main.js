@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import AppLayout from './../Layout/appLayout'
-import './../../styles/App.scss'
-import { Row } from 'reactstrap'
 import Group from './Group'
 import GroupList from './../helpers/GroupList'
+import { Grid } from '@material-ui/core'
 
 const Main = () => {
 	const [width, setWidth] = useState(window.innerWidth)
@@ -24,17 +23,18 @@ const Main = () => {
 
 	return (
 		<AppLayout brand>
-			<Row>
-				<div className="col-xs-12 col-md-4 ">
+			{/* style={{ height: '100%', minHeight: '100%' }} */}
+			<Grid container>
+				<Grid item xs={12} md={4}>
 					<GroupList width={width} />
-				</div>
+				</Grid>
 
-				{width >= 768 ? (
-					<div className="col-md-8 group">
-						<Group width={width} partial />
-					</div>
+				{width >= 960 ? (
+					<Grid item md={8}>
+						<Group width={width} partial={true} />
+					</Grid>
 				) : null}
-			</Row>
+			</Grid>
 		</AppLayout>
 	)
 }

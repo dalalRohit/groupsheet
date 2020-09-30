@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectors, creators } from './../../store/slices/rootReducer'
-import { useParams } from 'react-router-dom'
+import { Redirect, useParams } from 'react-router-dom'
 import AppLayout from './../Layout/appLayout'
-import Modal from './../UI/Modal'
-
+import TaskList from './../helpers/TaskList'
+// import TaskForm from './../helpers/Forms/TaskForm'
+import { Container } from '@material-ui/core'
 export default function Group(props) {
 	let { id } = useParams()
 	const dispatch = useDispatch()
+	let { user } = useSelector(selectors.userSelector)
 	let { group, fetching } = useSelector(selectors.grpSelector)
 	let { tasks, task_fetching } = useSelector(selectors.taskSelector)
-	const { partial } = props
+	const { partial, width } = props
 
 	useEffect(() => {
 		if (id) {
@@ -27,45 +29,25 @@ export default function Group(props) {
 		}
 	}, [group])
 
-	const [modal, setModal] = useState(false)
-
-	const toggle = () => setModal(!modal)
-
 	const render = group ? (
-		<>
-			<code>{JSON.stringify(group, null, 4)}</code>
-			<br />
+		<Container disableGutters className="group">
 			{task_fetching ? (
 				'task fetching'
 			) : tasks && tasks.length ? (
-				<>
-					{tasks.map((task) => {
-						return <code>{JSON.stringify(task, null, 4)}</code>
-					})}
-				</>
+				<Container disableGutters className="tasks">
+					<TaskList userId={user} tasks={tasks} />
+					TaskForm
+				</Container>
 			) : (
 				'no tasks'
 			)}
-
-			<div className="buttons">
-				<div className="credit" onClick={toggle}>
-					CREDIT
-					{modal ? <Modal credit={true} modal={modal} toggle={toggle} /> : null}
-				</div>
-				<div className="debit" onClick={toggle}>
-					DEBIT
-					{modal ? (
-						<Modal credit={false} modal={modal} toggle={toggle} />
-					) : null}
-				</div>
-			</div>
-		</>
+		</Container>
 	) : (
 		<h2>Select group</h2>
 	)
 
 	return !partial ? (
-		<AppLayout brand={false}>
+		<AppLayout brand={false} currentGroup={group}>
 			{fetching ? 'fetching' : group ? render : null}
 		</AppLayout>
 	) : (

@@ -1,72 +1,101 @@
-import React, { Component } from 'react'
-import { IconButton, Badge } from '@material-ui/core'
+import React, { useState } from 'react'
 import {
-	IoIosNotificationsOutline,
-	IoIosLogOut,
-	IoIosArrowBack,
-} from 'react-icons/io'
-import { CgProfile } from 'react-icons/cg'
-import { Link } from 'react-router-dom'
-import {
-	Dropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-} from 'reactstrap'
+	AppBar,
+	Toolbar,
+	Typography,
+	IconButton,
+	makeStyles,
+	Grid,
+} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import Drawer from '../Drawer'
+import { selectors } from './../../store/slices/rootReducer'
+import { useSelector } from 'react-redux'
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
-export default class AppBar extends Component {
-	state = {
-		dropdown: false,
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+	},
+	title: {
+		flexGrow: 1,
+	},
+}))
+
+const TopBar = (props) => {
+	const { group } = useSelector(selectors.grpSelector)
+	const classes = useStyles()
+	const { brand, currentGroup } = props
+	const [sidebar, toggle] = useState(false)
+	const toggleDrawer = () => {
+		toggle(!sidebar)
 	}
 
-	changeDropdown = () => {
-		this.setState({
-			dropdown: !this.state.dropdown,
-		})
-	}
-	render() {
-		const { brand } = this.props
+	const ChatBar = (data) => {
+		const { group } = data
+		const { grp_name } = group
 		return (
-			<div className="appbar">
-				{brand ? (
-					<div className="brand">
-						<Link to="/app">GroupSheet</Link>
-					</div>
-				) : (
-					<Link to="/app">
-						<IoIosArrowBack size={30} />
-					</Link>
-				)}
-
-				<div className="icons">
-					<Dropdown isOpen={this.state.dropdown} toggle={this.changeDropdown}>
-						<DropdownToggle className="caret" caret>
-							<Badge badgeContent={12} color="primary">
-								<p>
-									<IoIosNotificationsOutline size={29} />
-								</p>
-							</Badge>
-						</DropdownToggle>
-
-						<DropdownMenu className="notifs">
-							<DropdownItem>Some Action </DropdownItem>
-							<DropdownItem>Foo action</DropdownItem>
-							<DropdownItem>Bar Action</DropdownItem>
-							<DropdownItem>Quo Action</DropdownItem>
-							<DropdownItem>Some Action</DropdownItem>
-							<DropdownItem>Foo Action</DropdownItem>
-							<DropdownItem>Bar Action</DropdownItem>
-							<DropdownItem>Quo Action</DropdownItem>
-						</DropdownMenu>
-					</Dropdown>
-
-					<IconButton aria-label="show logout button" color="inherit">
-						<Link to="/logout">
-							<IoIosLogOut size={29} />
-						</Link>
-					</IconButton>
-				</div>
+			<div className="chatbar">
+				<AppBar color="transparent" position="static">
+					<Toolbar>
+						<AccountCircleIcon
+							edge="start"
+							className={classes.menuButton}
+							fontSize="large"
+						/>
+						<Typography className={classes.title} variant="h4">
+							{grp_name}
+						</Typography>
+						<MoreVertIcon />
+					</Toolbar>
+				</AppBar>
 			</div>
 		)
 	}
+	return (
+		<Grid container className="appbar-wrapper">
+			<Grid item md={4}>
+				<div className="appbar">
+					<Drawer toggle={toggleDrawer} open={sidebar} />
+					<AppBar position="static">
+						<Toolbar>
+							<IconButton
+								edge="start"
+								className={classes.menuButton}
+								color="inherit"
+								aria-label="menu"
+								onClick={toggleDrawer}
+							>
+								<MenuIcon />
+							</IconButton>
+							{currentGroup ? (
+								'back'
+							) : (
+								<Typography variant="h6" className={classes.title}>
+									GroupSheet
+								</Typography>
+							)}
+
+							{/* Notifications */}
+							<NotificationsIcon />
+						</Toolbar>
+					</AppBar>
+				</div>
+			</Grid>
+
+			{group ? (
+				<Grid item md={8}>
+					<ChatBar group={group} />
+				</Grid>
+			) : null}
+		</Grid>
+	)
 }
+
+export default TopBar

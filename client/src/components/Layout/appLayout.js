@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectors, creators } from './../../store/slices/rootReducer'
 import AppBar from './../helpers/AppBar'
-import Spin from './../UI/Spin'
-import './../../styles/App.scss'
+import { Container } from '@material-ui/core'
+
 const AppLayout = (props) => {
 	const dispatch = useDispatch()
 	const { auth, user_fetching } = useSelector(selectors.userSelector)
@@ -12,13 +12,14 @@ const AppLayout = (props) => {
 	}, [])
 	// if (user_fetching) return <Spin show={user_fetching} />
 	return auth ? (
-		<>
-			<AppBar brand={props.brand} />
+		<Container disableGutters maxWidth="xl" className={`wrapper`}>
+			<AppBar
+				brand={props.brand}
+				group={props.group !== undefined ? props.group : null}
+			/>
 
-			<main className="main">{props.children}</main>
-
-			<>footer</>
-		</>
+			<div className="main">{props.children}</div>
+		</Container>
 	) : null
 }
 

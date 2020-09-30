@@ -1,3 +1,81 @@
+//===================
+//appLayout.js
+//===================
+.wrapper {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.main {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: 94%;
+    min-height: 94%;
+    // padding: .5rem 0 .5rem 0;
+}
+
+
+
+//===================
+//GroupList.js
+//===================
+.groups {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+    //your groups
+    h3 {
+        text-align: center;
+    }
+
+}
+
+//===================
+//Grp.js
+//===================
+.grp {
+    width: 100%;
+    margin: 0 0 .4rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    ;
+    padding: .5rem;
+
+    p {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: lightgrey
+    }
+}
+
+.current {
+    background-color: lightgrey;
+}
+
+//===================
+//Group.js
+//===================
+.group {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+}
+
 //https://www.geeksforgeeks.org/how-to-design-full-width-dropdown-navbar-using-bootstrap/
 .dropdown {
     position: static !important;
@@ -14,79 +92,51 @@
     word-wrap: break-word;
 }
 
-//GroupList.js
-.groups {
-    box-sizing: border-box;
-    width: 100%;
-    background-color: lightblue;
-    height: 100%;
-}
-
-.group-name {
-    width: 100%;
-    border: 1px solid salmon;
-    margin: 1rem 0 0 0;
-    padding: .4rem;
-}
-
+//===================
 //AppBar.js
-.appbar {
+//===================
+.appbar-wrapper {
+    box-sizing: border-box;
+    height: 6%;
+    max-height: 6%;
+    margin: 0;
+    padding: 0;
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
-    background-color: lightseagreen;
+}
+
+//don't touch this
+.appbar,
+.chatbar {
+    width: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .2rem;
 
-    .icons {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        p {
-            font-size: 1rem;
+    header {
+        div:first-child {
             margin: 0;
+            padding: 0;
+
+            @media (max-width: 600px) {
+                height: 46px;
+                min-height: 46px;
+            }
+
+            @media (min-width: 600px) {
+                height: 46px;
+                min-height: 46px;
+            }
         }
     }
-
-    .caret {
-        background: none;
-        border: none;
-        color: inherit;
-
-    }
-
-    .notifs {
-        width: 90px;
-        max-height: 200px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
 }
 
 
-// Group.js
-.buttons {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    .credit {
-        background-color: lightgreen;
-    }
-
-    .debit {
-        background-color: red;
-    }
-}
-
+//================
 //Login.js
+//================
 .user-form {
     padding: 1rem .3rem 1rem .3rem;
     width: 70%;
@@ -114,13 +164,17 @@
     }
 }
 
+//===================
 //Modal.js
+//===================
 .modal-body {
     margin: 0;
     padding: 0;
 }
 
+//=======================
 //CreateGroup.js
+//=======================
 .group-form {
     width: 100%;
     display: flex;
@@ -141,7 +195,119 @@
     }
 }
 
+//===================
+//TaskList.js
+//===================
+.tasks {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-width: 100%;
+}
+
+.tasklist {
+    box-sizing: border-box;
+    width: 100%;
+    height: 86vh;
+    min-height: 86vh;
+    padding: 0;
+    margin: 0.06rem 0 0 0;
+    overflow-y: scroll;
+    background-color: lightcyan;
+}
+
+.task {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 40%;
+    max-width: 100%;
+    border-radius: 5px;
+    display: block;
+    clear: both;
+    margin: 0 0 1rem 0;
+}
+
+.right {
+    float: right;
+}
+
+.cr {
+    background-color: lightgreen;
+}
+
+.dr {
+    background-color: lightcoral;
+}
+
+.add-task {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+//===================
+//TaskForm.js
+//===================
+.task-form {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 0 .6rem 0;
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+//===================
+//Drawer.js
+//===================
+.avatar {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 0 0;
+
+    p {
+        margin: 1rem 0 0 0;
+        font-size: 1.2rem;
+    }
+}
+
+//=============================
+// TaskCard.js
+//=============================
+.task-header {
+    box-sizing: border-box;
+    margin: 0;
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-footer {
+    box-sizing: border-box;
+    margin: 0;
+
+    span {
+        font-size: .9rem;
+        float: right;
+    }
+}
+
+// ------------------------------------------ APP STYLES END HERE-----------------------------------------------------
+
+//=============================
 // Spinner.js
+//=============================
 .spin {
     box-sizing: border-box;
     width: 100%;

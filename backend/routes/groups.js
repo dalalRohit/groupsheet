@@ -11,7 +11,7 @@ router.get('/:id', auth, (req, res, next) => {
 		pool
 			.query(helpers.getGroup(), [id])
 			.then((data) => {
-				const grp = data.rows
+				const grp = data.rows[0]
 				res.status(200).json(grp)
 			})
 			.catch((err) => {
