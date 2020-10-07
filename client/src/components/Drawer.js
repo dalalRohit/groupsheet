@@ -10,7 +10,7 @@ import {
 	ListItemText,
 } from '@material-ui/core'
 import { NavLink } from 'react-router-dom'
-import { authRoutes } from './../config'
+import { authRoutes, routes } from './../config'
 const paperWidth = 240
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -29,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyDrawer(props) {
 	const classes = useStyles()
-	const { children, toggle, open } = props
-	const Profile = (username) => {
+	const { toggle, open, user, auth } = props
+	const links = auth ? authRoutes : routes
+	const Profile = () => {
 		return (
 			<div className="avatar">
-				<Avatar className={classes.large}>U</Avatar>
+				<Avatar className={classes.large}>{user.username[0]}</Avatar>
 				<p>
-					Hello <code>username</code>
+					Hello <code>{user.username}</code>
 				</p>
 			</div>
 		)
@@ -51,13 +52,13 @@ export default function MyDrawer(props) {
 			}}
 			onClose={toggle}
 		>
-			<Profile />
+			{auth ? <Profile /> : null}
 			<Divider />
 
 			<List>
-				{authRoutes.map(({ name, icon, path }) => {
+				{links.map(({ name, icon, path }) => {
 					return (
-						<NavLink to={path}>
+						<NavLink key={Math.random()} to={path}>
 							<ListItem button>
 								<ListItemIcon>{icon}</ListItemIcon>
 								<ListItemText>{name}</ListItemText>

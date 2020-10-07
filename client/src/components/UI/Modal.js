@@ -1,22 +1,36 @@
 import React from 'react'
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import {
+	Dialog,
+	DialogTitle,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+} from '@material-ui/core'
+import TaskForm from './../helpers/Forms/TaskForm'
 
-const ModalExample = (props) => {
-	const { credit, modal, toggle } = props
-	const taskRender = (
-		<>
-			<input type="text" />
-			<input type="text" />
-			<Button>Add Task</Button>
-		</>
-	)
-
+export default function DialogComp(props) {
+	const { onClose, open, credit } = props
+	const handleClose = () => {
+		onClose()
+	}
+	const action = credit ? 'Credit' : 'Debit'
 	return (
-		<Modal isOpen={modal} toggle={toggle}>
-			<ModalHeader toggle={toggle}>{props.title}</ModalHeader>
-			<ModalBody>{props.children}</ModalBody>
-		</Modal>
+		<Dialog
+			onClose={handleClose}
+			aria-labelledby="simple-dialog-title"
+			open={open}
+		>
+			<DialogTitle>Add Task - {action}</DialogTitle>
+
+			<DialogContent>
+				<DialogContentText>
+					To subscribe to this website, please enter your email address here. We
+					will send updates occasionally.
+				</DialogContentText>
+				<TaskForm credit={credit} />
+			</DialogContent>
+
+			<DialogActions>Dialog Actions</DialogActions>
+		</Dialog>
 	)
 }
-
-export default ModalExample

@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '../helpers/Navbar'
 import Footer from '../helpers/Footer'
+
 const Layout = (props) => {
 	return (
 		<>

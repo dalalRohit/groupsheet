@@ -5,9 +5,15 @@ import taskReducer from './taskRed'
 import groupReducer from './groupRed'
 import flashReducer from './flashRed'
 
-import { userSelector, loginUser, logoutUser, checkAuth } from './usersRed'
+import {
+	userSelector,
+	loginUser,
+	logoutUser,
+	checkAuth,
+	registerUser,
+} from './usersRed'
 import { grpSelector, getGroupsForUser, getGroup } from './groupRed'
-import { taskSelector, getTasks } from './taskRed'
+import { taskSelector, getTasks, addTask } from './taskRed'
 
 const rootReducer = combineReducers({
 	users: usersReducer,
@@ -26,6 +32,7 @@ export const selectors = {
 //CREATORS
 export const creators = {
 	//user
+	registerUser,
 	loginUser,
 	logoutUser,
 	checkAuth,
@@ -36,6 +43,7 @@ export const creators = {
 
 	//task
 	getTasks,
+	addTask,
 }
 
 export default rootReducer

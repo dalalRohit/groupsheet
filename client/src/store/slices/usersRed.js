@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { clear } from './groupRed'
 export const initialState = {
+	register: false,
 	loading: false,
 	user: null,
 	auth: false,
@@ -29,6 +31,10 @@ const userSlice = createSlice({
 		login: (state, payload) => {
 			state.auth = true
 			state.user = payload.payload
+			state.loading = false
+		},
+		register: (state, payload) => {
+			state.register = true
 			state.loading = false
 		},
 		user_loaded: (state, payload) => {
@@ -79,6 +85,7 @@ export const {
 	user_loaded,
 	user_loading,
 	logout,
+	register,
 } = userSlice.actions
 export const userSelector = (state) => state.users
 export default userSlice.reducer
@@ -87,10 +94,24 @@ export default userSlice.reducer
 ALL ASYNC ACTION CREATORS 
 ===================================*/
 
-//https://medium.com/dev-genius/async-api-fetching-with-redux-toolkit-2020-8623ff9da267
+export const registerUser = (data) => async (dispatch) => {
+	const x = {
+		username: data.username,
+		email: data.email,
+		password: data.password,
+	}
+	axios
+		.post('/users/fsignup', x)
+		.then((res) => {
+			dispatch(register())
+		})
+		.catch((err) => {
+			dispatch(auth_fail())
+		})
+}
 
+//https://medium.com/dev-genius/async-api-fetching-with-redux-toolkit-2020-8623ff9da267
 export const loginUser = (data) => async (dispatch) => {
-	console.log(data)
 	dispatch(auth_start())
 	axios
 		.post('/users/flogin', { username: data.username, password: data.password })
@@ -108,6 +129,7 @@ export const logoutUser = () => async (dispatch) => {
 		.get('/users/logout', { withCredentials: true })
 		.then((res) => {
 			dispatch(logout())
+			dispatch(clear(false))
 		})
 		.catch((err) => {
 			dispatch(auth_fail())

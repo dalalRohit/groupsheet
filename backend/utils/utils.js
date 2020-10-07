@@ -11,13 +11,13 @@ const hashPassword = async (pswd) => {
 }
 
 //To generate tokens
-const createTokens = async (userId) => {
-	const token = jwt.sign({ _id: userId }, process.env.SECRET, {
+const createTokens = async (user) => {
+	const token = jwt.sign({ user }, process.env.SECRET, {
 		expiresIn: '2m',
 	})
 
 	const xToken = jwt.sign(
-		{ _id: userId, expires: 7 * 24 * 60 * 60 },
+		{ _id: user.user_id, expires: 7 * 24 * 60 * 60 },
 		process.env.REFRESH + process.env.SECRET,
 		{ expiresIn: '7d' }
 	)

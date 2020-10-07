@@ -4,27 +4,35 @@ import {
 	CardContent,
 	Divider,
 	Typography,
-	Container,
+	Avatar,
 } from '@material-ui/core'
-import { MoreVert } from '@material-ui/icons'
+import Menu from './../UI/Menu'
 
 const TaskCard = (data) => {
 	const { task, loggedInUser } = data
 	let { task_id, type, amount, user_id, date, title, username } = task
 	let className = loggedInUser === user_id ? 'task right' : 'task'
-
+	const color = type === 'CR' ? '#FFDDDD' : '#DDFFDD'
 	username = user_id === loggedInUser ? 'Me' : username
 	return (
-		<Card className={type === 'CR' ? `${className} cr` : `${className} dr`}>
+		<Card
+			raised
+			key={task_id}
+			style={{ backgroundColor: color }}
+			className={className}
+		>
 			<div className="task-header">
+				<Avatar>{username[0].toUpperCase()}</Avatar>
 				<Typography>{username}</Typography>
-				<MoreVert />
+				<Menu where="task" />
 			</div>
 
 			<Divider />
 
 			<CardContent className="task-main">
-				<Typography key={task_id}>{amount}</Typography>
+				<Typography key={task_id}>
+					{title}-{amount}
+				</Typography>
 			</CardContent>
 
 			<div className="task-footer">
@@ -39,12 +47,8 @@ const TaskCard = (data) => {
 export default function TaskList(props) {
 	const { tasks, userId } = props
 	const render = tasks.map((task) => {
-		return <TaskCard task={task} loggedInUser={userId} />
+		return <TaskCard key={task.task_id} task={task} loggedInUser={userId} />
 	})
 
-	return (
-		<Container className="tasklist" disableGutters>
-			{render}
-		</Container>
-	)
+	return <>{render}</>
 }

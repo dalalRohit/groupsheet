@@ -11,7 +11,6 @@ export const grpSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		set: (state, payload) => {
-			console.log('set', payload)
 			state.fetching = false
 			state.groups = payload.payload
 		},
@@ -19,14 +18,17 @@ export const grpSlice = createSlice({
 			state.fetching = true
 		},
 		single: (state, payload) => {
-			console.log('single', payload)
 			state.fetching = false
 			state.group = payload.payload
+		},
+		clear: (state, { payload }) => {
+			state.fetching = false
+			payload ? (state.groups = null) : (state.group = null)
 		},
 	},
 })
 
-export const { set, fetching, single } = grpSlice.actions
+export const { set, fetching, single, clear } = grpSlice.actions
 export const grpSelector = (state) => state.groups
 export default grpSlice.reducer
 

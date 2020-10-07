@@ -11,10 +11,11 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Drawer from '../Drawer'
 import { selectors } from './../../store/slices/rootReducer'
 import { useSelector } from 'react-redux'
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import { Link } from 'react-router-dom'
+import Menu from './../UI/Menu'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,19 +25,37 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(2),
 	},
 	title: {
-		flexGrow: 1,
+		flexGrow: 2,
 	},
 }))
 
 const TopBar = (props) => {
 	const { group } = useSelector(selectors.grpSelector)
+	const { auth, user } = useSelector(selectors.userSelector)
+
 	const classes = useStyles()
-	const { brand, currentGroup } = props
-	const [sidebar, toggle] = useState(false)
+	const { currentGroup, width, fetching } = props
+
+	const [sidebar, setDrawer] = useState(false)
+
 	const toggleDrawer = () => {
-		toggle(!sidebar)
+		setDrawer(!sidebar)
 	}
 
+	const GroupName = ({ grp }) => {
+		return (
+			<>
+				<AccountCircleIcon
+					edge="start"
+					className={classes.menuButton}
+					fontSize="large"
+				/>
+				<Typography className={classes.title} variant="h5">
+					{grp}
+				</Typography>
+			</>
+		)
+	}
 	const ChatBar = (data) => {
 		const { group } = data
 		const { grp_name } = group
@@ -44,53 +63,61 @@ const TopBar = (props) => {
 			<div className="chatbar">
 				<AppBar color="transparent" position="static">
 					<Toolbar>
-						<AccountCircleIcon
-							edge="start"
-							className={classes.menuButton}
-							fontSize="large"
-						/>
-						<Typography className={classes.title} variant="h4">
-							{grp_name}
-						</Typography>
-						<MoreVertIcon />
+						<GroupName grp={grp_name} />
+						<Menu where="group" />
 					</Toolbar>
 				</AppBar>
 			</div>
 		)
 	}
+
 	return (
-		<Grid container className="appbar-wrapper">
-			<Grid item md={4}>
+		<Grid container style={{ flexGrow: 1 }} className="appbar-wrapper">
+			<Grid item md={4} xs={12}>
 				<div className="appbar">
-					<Drawer toggle={toggleDrawer} open={sidebar} />
+					<Drawer
+						auth={auth}
+						user={user}
+						toggle={toggleDrawer}
+						open={sidebar}
+					/>
 					<AppBar position="static">
 						<Toolbar>
-							<IconButton
-								edge="start"
-								className={classes.menuButton}
-								color="inherit"
-								aria-label="menu"
-								onClick={toggleDrawer}
-							>
-								<MenuIcon />
-							</IconButton>
-							{currentGroup ? (
-								'back'
+							{fetching ? null : currentGroup ? (
+								<>
+									<Link to="/app">
+										<IconButton color="inherit" className={classes.menuButton}>
+											<ArrowBackIcon />
+										</IconButton>
+									</Link>
+									<GroupName grp={group.grp_name} />
+									<Menu where="group" />
+								</>
 							) : (
-								<Typography variant="h6" className={classes.title}>
-									GroupSheet
-								</Typography>
+								<>
+									<IconButton
+										edge="start"
+										className={classes.menuButton}
+										color="inherit"
+										aria-label="menu"
+										onClick={toggleDrawer}
+									>
+										<MenuIcon />
+									</IconButton>
+									<Typography variant="h6" className={classes.title}>
+										GroupSheet
+									</Typography>
+									{/* Notifications */}
+									<NotificationsIcon />
+								</>
 							)}
-
-							{/* Notifications */}
-							<NotificationsIcon />
 						</Toolbar>
 					</AppBar>
 				</div>
 			</Grid>
 
-			{group ? (
-				<Grid item md={8}>
+			{width >= 960 && group ? (
+				<Grid item sm={0} md={8}>
 					<ChatBar group={group} />
 				</Grid>
 			) : null}
@@ -98,4 +125,4 @@ const TopBar = (props) => {
 	)
 }
 
-export default TopBar
+export default React.memo(TopBar)

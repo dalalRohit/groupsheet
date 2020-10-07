@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 const redis = require('redis')
 const client = redis.createClient()
 const { createTokens } = require('./utils')
-const validateRefresh = async (refreshToken, userId) => {
+
+const validateRefresh = async (refreshToken, user) => {
 	const secret = process.env.REFRESH + process.env.SECRET
 	let isExpired = false
 	try {
@@ -22,7 +23,7 @@ const validateRefresh = async (refreshToken, userId) => {
 		}
 	}
 
-	const tokens = await createTokens(userId)
+	const tokens = await createTokens(user)
 	return {
 		newToken: tokens.token,
 		newXToken: isExpired ? tokens.xToken : refreshToken,
@@ -60,18 +61,18 @@ const authMiddleware = async (req, res, next) => {
 		}
 
 		//check for matching user
-		if (xdecoded._id !== authDecoded._id) {
+		if (xdecoded._id !== authDecoded.user.user_id) {
 			req.tokens = {}
 			req.user = {}
 			return res.status(403).json({ auth: false, msg: 'Users not matched..' })
 		}
 
-		jwt.verify(token, process.env.SECRET, async (err, user) => {
+		jwt.verify(token, process.env.SECRET, async (err, data) => {
 			//if auth-token is valid
-			if (user) {
-				req.user = {
-					id: user._id,
-				}
+			console.log(err)
+			if (!err && data) {
+				console.log('line 73', data)
+				req.user = data.user
 				req.tokens = {
 					token,
 					xToken,
@@ -91,14 +92,13 @@ const authMiddleware = async (req, res, next) => {
 
 			//token is expired. create {auth,refresh} and send
 			else if (err && err.name === 'TokenExpiredError') {
-				const newTokens = await validateRefresh(xToken, authDecoded._id)
+				const newTokens = await validateRefresh(xToken, authDecoded.user)
 
 				if (newTokens.newToken && newTokens.newXToken) {
 					//set user to the newly created userId
 					const userNew = await jwt.decode(newTokens.newToken)
-					req.user = {
-						id: userNew._id,
-					}
+					console.log('line 99', userNew)
+					req.user = userNew.user
 					req.tokens = {
 						token: newTokens.newToken,
 						xToken: newTokens.newXToken,

@@ -1,9 +1,9 @@
 import React from 'react'
 import * as Yup from 'yup'
-import { Formik, ErrorMessage } from 'formik'
-import { Button, InputGroup, Input, Label } from 'reactstrap'
-import { useSelector, useDispatch } from 'react-redux'
-import { loginUser, userSelector } from './../../../store/slices/usersRed'
+import { Formik } from 'formik'
+import { TextField, Button } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { creators } from './../../../store/slices/rootReducer'
 
 //LOGIN DATA
 const loginInputs = [
@@ -89,36 +89,52 @@ export default function UserForm(props) {
 		<Formik
 			initialValues={initValues}
 			validationSchema={schema}
-			onSubmit={(values) => (props.login ? dispatch(loginUser(values)) : null)}
+			onSubmit={(values) =>
+				props.login
+					? dispatch(creators.loginUser(values))
+					: dispatch(creators.registerUser(values))
+			}
 		>
 			{(formProps) => {
-				const errors = Array.from(Object.values(formProps.errors))
+				const {
+					errors,
+					values,
+					handleChange,
+					handleBlur,
+					handleSubmit,
+				} = formProps
+				const arrErrors = Array.from(Object.values(errors))
 				return (
-					<form onSubmit={formProps.handleSubmit}>
+					<form
+						autoComplete="off"
+						className="user-form"
+						onSubmit={formProps.handleSubmit}
+					>
 						{inputs.map(({ id, name, placeholder, label, type }) => {
 							return (
-								<InputGroup key={id}>
-									<Label>{label}</Label>
-									<Input
-										required
-										autoComplete="off"
-										name={name}
-										type={type}
-										onChange={formProps.handleChange}
-										value={formProps.values[name]}
-										onBlur={formProps.handleBlur}
-										placeholder={placeholder}
-									/>
-									<ErrorMessage
-										name={name}
-										render={(msg) => <span className="field-error">{msg}</span>}
-									/>
-								</InputGroup>
+								<TextField
+									key={id}
+									variant="outlined"
+									label={label}
+									required
+									autoComplete="off"
+									name={name}
+									type={type}
+									onChange={handleChange}
+									value={values[name]}
+									onBlur={handleBlur}
+									placeholder={placeholder}
+									error={errors[name] ? true : false}
+									helperText={errors[name] ? errors[name] : null}
+								/>
 							)
 						})}
 						<Button
-							disabled={errors.length ? true : false}
-							onClick={formProps.handleSubmit}
+							variant="contained"
+							color="primary"
+							type="submit"
+							disabled={arrErrors.length ? true : false}
+							onClick={handleSubmit}
 						>
 							{props.login ? 'Login' : 'Register'}
 						</Button>
@@ -127,5 +143,5 @@ export default function UserForm(props) {
 			}}
 		</Formik>
 	)
-	return <div className="user-form">{render}</div>
+	return <>{render}</>
 }

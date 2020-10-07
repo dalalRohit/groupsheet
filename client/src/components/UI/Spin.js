@@ -1,9 +1,10 @@
 import React from 'react'
-import { Spinner } from 'reactstrap'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 export default function Spin(props) {
 	return props.show ? (
-		<div className="spin">
-			<Spinner style={{ width: '5rem', height: '5rem' }} />
+		<div className={'spin'}>
+			<CircularProgress />
 		</div>
 	) : null
 }

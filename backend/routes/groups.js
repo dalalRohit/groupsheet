@@ -19,9 +19,10 @@ router.get('/:id', auth, (req, res, next) => {
 			})
 	} else {
 		pool
-			.query(helpers.groupsByUser(), [req.user.id])
+			.query(helpers.groupsByUser(), [req.user.user_id])
 			.then((data) => {
 				const groups = data.rows
+
 				res.status(200).json(groups)
 			})
 			.catch((err) => {

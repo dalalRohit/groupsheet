@@ -34,7 +34,7 @@ const getGroup = () => {
 //TASK QUERIES
 //============================
 const addTask = () => {
-	return `INSERT INTO "task" (type,amount,user_id,group_id,title) VALUES ($1,$2,$3,$4,$5) RETURNING *`
+	return `INSERT INTO "task" (type,title,remark,amount,user_id,group_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`
 }
 
 const getTasks = () => {

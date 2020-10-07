@@ -14,7 +14,11 @@ router.post('/fsignup', async (req, res, next) => {
 	pool
 		.query(helpers.storeUser(), [username, email, password])
 		.then((user) => {
-			res.send(user)
+			console.log(user)
+			return res.status(201).json({ signup: true })
+		})
+		.catch((err) => {
+			return res.status(500).json({ signup: false, err })
 		})
 		.catch((err) => {})
 })
@@ -40,7 +44,7 @@ router.post('/flogin', (req, res, next) => {
 						.status(400)
 						.json({ login: false, msg: 'Passwords do not match!' })
 				}
-				const { token, xToken } = await createTokens(foundUser.user_id)
+				const { token, xToken } = await createTokens(foundUser)
 				req.user = foundUser
 				req.tokens = {
 					token,
@@ -76,14 +80,19 @@ router.get('/logout', auth, async (req, res, next) => {
 
 	//https://github.com/NodeRedis/node-redis/issues/1000#issuecomment-655488752
 	//setex(key,exp-time,val,cb())
-	client.setex(req.tokens.xToken, decoded.exp, req.user.id, (err, data) => {
-		if (err) {
-			return res.status(500).json({
-				logout: false,
-				msg: err.message,
-			})
+	client.setex(
+		req.tokens.xToken,
+		decoded.exp,
+		req.user.user_id,
+		(err, data) => {
+			if (err) {
+				return res.status(500).json({
+					logout: false,
+					msg: err.message,
+				})
+			}
 		}
-	})
+	)
 
 	res.cookie('token', '', {
 		httpOnly: true,
@@ -102,6 +111,6 @@ router.get('/logout', auth, async (req, res, next) => {
 	})
 })
 router.get('/me', auth, async (req, res, next) => {
-	res.status(201).json({ auth: true, user: req.user.id })
+	res.status(201).json({ auth: true, user: req.user })
 })
 module.exports = router
