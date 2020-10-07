@@ -1,0 +1,328 @@
+//===================
+//appLayout.js
+//===================
+.wrapper {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.main {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: 94%;
+    min-height: 94%;
+}
+
+//===================
+//GroupList.js
+//===================
+.groups {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: .5rem;
+
+    //your groups
+    h3 {
+        text-align: center;
+    }
+
+}
+
+.no-groups {
+    width: 100%;
+    height: 94vh;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    // border: 1px solid red;
+}
+
+
+
+//===================
+//Grp.js
+//===================
+.grp {
+    width: 100%;
+    margin: 0 0 .4rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    ;
+    padding: .5rem;
+
+    p {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: lightgrey
+    }
+}
+
+.current {
+    background-color: lightgrey;
+}
+
+//===================
+//Group.js
+//===================
+.group {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+}
+
+.add-task {
+    box-sizing: border-box;
+    padding: .5rem 0 .5rem 0;
+
+    div {
+        text-align: center;
+    }
+}
+
+.choose {
+    width: 100%;
+    height: 94vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//https://www.geeksforgeeks.org/how-to-design-full-width-dropdown-navbar-using-bootstrap/
+.dropdown {
+    position: static !important;
+}
+
+.dropdown-menu {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    margin-top: 0px !important;
+    width: 75% !important;
+    max-width: 100%;
+}
+
+.dropdown-item {
+    word-wrap: break-word;
+}
+
+//===================
+//AppBar.js
+//===================
+.appbar-wrapper {
+    box-sizing: border-box;
+    height: 6%;
+    max-height: 6%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    background-color: #eee;
+}
+
+//don't touch this
+.appbar,
+.chatbar {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+
+    header {
+        div:first-child {
+            margin: 0;
+            padding: 0;
+
+            @media (max-width: 600px) {
+                height: 46px;
+                min-height: 46px;
+            }
+
+            @media (min-width: 600px) {
+                height: 46px;
+                min-height: 46px;
+            }
+        }
+    }
+}
+
+
+
+//===================
+//Modal.js
+//===================
+.modal-body {
+    margin: 0;
+    padding: 0;
+}
+
+//=======================
+//CreateGroup.js
+//=======================
+.group-form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        margin: .5rem .2rem .5rem .2rem;
+        padding: .5rem;
+
+        label {
+            margin-right: 5rem;
+        }
+    }
+}
+
+//===================
+//TaskList.js
+//===================
+.tasks {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-width: 100%;
+}
+
+.no-tasks {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    // border: 1px solid red;
+}
+
+.tasklist {
+    height: 86vh;
+    min-height: 86vh;
+    padding: 0;
+    margin: 0.06rem 0 0 0;
+    overflow-y: scroll;
+    background-color: lightcyan;
+}
+
+.task {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 30%;
+    max-width: 100%;
+    border-radius: 5px;
+    display: block;
+    clear: both;
+    margin: 0 0 1rem 0;
+
+    @media screen and (max-width:600px) {
+        width: 45%;
+    }
+}
+
+.right {
+    float: right;
+}
+
+.cr {
+    background-color: lightgreen;
+}
+
+.dr {
+    background-color: lightcoral;
+}
+
+.add-task {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.task-header {
+    box-sizing: border-box;
+    margin: 0;
+    padding: .3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-footer {
+    box-sizing: border-box;
+    margin: 0;
+
+    span {
+        font-size: .9rem;
+        float: right;
+    }
+}
+
+//===================
+//TaskForm.js
+//===================
+.task-form {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+
+    div {
+        width: 100%;
+        padding: .5rem .5rem .5rem 0;
+        text-align: center;
+    }
+
+}
+
+//===================
+//Drawer.js
+//===================
+.avatar {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 0 0;
+
+    p {
+        margin: 1rem 0 0 0;
+        font-size: 1.2rem;
+    }
+}
+
+
+
+// ------------------------------------------ APP STYLES END HERE-----------------------------------------------------
+
+//=============================
+// Spinner.js
+//=============================
+.spin {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+}

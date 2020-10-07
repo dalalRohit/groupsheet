@@ -1,0 +1,136 @@
+//Scrollbar
+/* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgb(0, 0, 0) rgba(180, 186, 190, 0.781);
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+	width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+	height: 5px;
+	background: rgba(180, 186, 190, 0.781);
+
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #121212;
+	border-radius: 20px;
+	border: 2px solid rgba(180, 186, 190, 0.781);
+}
+
+//Scrollbar ends
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Roboto',
+		sans-serif;
+}
+
+:is(h1, h2, h3, h4, h5, h6, p) {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	min-height: 100%;
+
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		color: inherit;
+		text-decoration: none;
+	}
+
+}
+
+//home page styles
+//https://philipwalton.github.io/solved-by-flexbox/demos/holy-grail/
+
+// Header
+header {
+	.navbar-nav {
+		li {
+			margin: .5rem 0 .5rem 0;
+			padding: .5rem 0 .5rem 0;
+			font-size: 1.1rem;
+			width: 100%;
+
+			a {
+				color: rgba(187, 182, 182, 0.966);
+				text-decoration: none;
+
+				&:hover {
+					color: white;
+				}
+			}
+
+			@media screen and (min-width:768px) {
+				margin: .35rem;
+				padding: .35rem;
+			}
+		}
+	}
+}
+
+.active {
+	border-bottom: 3px solid plum;
+	transition: border-bottom .2s ease-in;
+}
+
+
+.main {
+	display: flex;
+	flex-flow: column;
+	flex: 1;
+	background-color: #eee;
+}
+
+//================
+//Login.js
+//================
+.user-form {
+	padding: 1rem .3rem 1rem .3rem;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid red;
+
+	div div {
+		width: 100%;
+	}
+
+	div,
+	button {
+		margin: 1rem 0 0 0;
+	}
+}
+
+footer {
+	background-color: lightcoral;
+	margin-bottom: 0;
+
+	h1 {
+		margin: 0;
+	}
+}
