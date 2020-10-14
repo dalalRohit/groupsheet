@@ -41,14 +41,13 @@ export const getTasks = (grpId) => async (dispatch) => {
 		.catch((err) => {})
 }
 
-export const addTask = (data) => async (dispatch, getState) => {
+export const addTask = (socket, data) => async (dispatch, getState) => {
 	axios
 		.post('/tasks/add', data)
 		.then((res) => {
 			const { tasks } = getState()
-			console.log(getState())
-			const data = [...tasks.tasks, res.data.task]
-			dispatch(set(data))
+			const allTasks = [...tasks.tasks, res.data.task]
+			dispatch(set(allTasks))
 		})
 		.catch((err) => {
 			console.log(err)

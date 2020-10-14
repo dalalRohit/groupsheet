@@ -12,11 +12,11 @@ const TaskCard = (data) => {
 	const { task, loggedInUser } = data
 	let { task_id, type, amount, user_id, date, title, username } = task
 	let className = loggedInUser === user_id ? 'task right' : 'task'
-	const color = type === 'CR' ? '#FFDDDD' : '#DDFFDD'
+	const color = type === 'DR' ? '#FFDDDD' : '#DDFFDD'
 	username = user_id === loggedInUser ? 'Me' : username
 	return (
 		<Card
-			raised
+			variant="outlined"
 			key={task_id}
 			style={{ backgroundColor: color }}
 			className={className}
@@ -36,9 +36,7 @@ const TaskCard = (data) => {
 			</CardContent>
 
 			<div className="task-footer">
-				<span>
-					<i> {date} </i>
-				</span>
+				<Typography variant="caption">{date}</Typography>
 			</div>
 		</Card>
 	)

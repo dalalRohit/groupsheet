@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function useHooks() {
+export const useHooks = () => {
 	const [width, setWidth] = useState(window.innerWidth)
 
 	useEffect(() => {

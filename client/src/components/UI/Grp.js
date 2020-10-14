@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { single } from './../../store/slices/groupRed'
 import PeopleIcon from '@material-ui/icons/People'
+import { Typography } from '@material-ui/core'
 export default function Grp(props) {
 	const dispatch = useDispatch()
 	const { group, width, current } = props
@@ -12,15 +13,17 @@ export default function Grp(props) {
 		width < 960 ? (
 			<Link className={className} to={`/group/${group.group_id}`}>
 				<PeopleIcon />
-				<p>{group.grp_name}</p>
-				<p>URC</p>
+				<Typography>{group.grp_name}</Typography>
+				<Typography>URC</Typography>
 			</Link>
 		) : (
 			<div className={className} key={group.group_id}>
 				<PeopleIcon />
-				<p onClick={() => dispatch(single(group))}>{group.grp_name}</p>
+				<Typography onClick={() => dispatch(single(group))}>
+					{group.grp_name}
+				</Typography>
 
-				<p>URC</p>
+				<Typography>URC</Typography>
 			</div>
 		)
 

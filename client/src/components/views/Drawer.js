@@ -10,7 +10,7 @@ import {
 	ListItemText,
 } from '@material-ui/core'
 import { NavLink } from 'react-router-dom'
-import { authRoutes, routes } from './../config'
+import { authRoutes, routes } from './../../config'
 const paperWidth = 240
 const useStyles = makeStyles((theme) => ({
 	paper: {

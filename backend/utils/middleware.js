@@ -69,9 +69,7 @@ const authMiddleware = async (req, res, next) => {
 
 		jwt.verify(token, process.env.SECRET, async (err, data) => {
 			//if auth-token is valid
-			console.log(err)
 			if (!err && data) {
-				console.log('line 73', data)
 				req.user = data.user
 				req.tokens = {
 					token,
@@ -97,7 +95,6 @@ const authMiddleware = async (req, res, next) => {
 				if (newTokens.newToken && newTokens.newXToken) {
 					//set user to the newly created userId
 					const userNew = await jwt.decode(newTokens.newToken)
-					console.log('line 99', userNew)
 					req.user = userNew.user
 					req.tokens = {
 						token: newTokens.newToken,

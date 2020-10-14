@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { TextField, Button } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { creators } from './../../../store/slices/rootReducer'
+import { creators } from '../../store/slices/rootReducer'
 
 //LOGIN DATA
 const loginInputs = [

@@ -8,7 +8,7 @@ import {
 	Grid,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import Drawer from '../Drawer'
+import Drawer from '../views//Drawer'
 import { selectors } from './../../store/slices/rootReducer'
 import { useSelector } from 'react-redux'
 import NotificationsIcon from '@material-ui/icons/Notifications'
@@ -117,7 +117,7 @@ const TopBar = (props) => {
 			</Grid>
 
 			{width >= 960 && group ? (
-				<Grid item sm={0} md={8}>
+				<Grid item sm={1} md={8}>
 					<ChatBar group={group} />
 				</Grid>
 			) : null}

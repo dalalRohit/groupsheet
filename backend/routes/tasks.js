@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 const pool = require('./../db/db')
 const helpers = require('./../utils/queries')
-
+const moment = require('moment')
 /* GET home page. */
 router.get('/:id', (req, res, next) => {
 	let { id } = req.params
@@ -10,6 +10,9 @@ router.get('/:id', (req, res, next) => {
 	pool
 		.query(helpers.getTasks(), [id])
 		.then((data) => {
+			data.rows.filter((task) => {
+				task['date'] = moment(task.date).format('D/M LT')
+			})
 			return res.status(200).json({ tasks: data.rows })
 		})
 		.catch((err) => {
