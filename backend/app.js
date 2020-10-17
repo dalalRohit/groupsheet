@@ -47,16 +47,3 @@ app.use(function (err, req, res, next) {
 })
 
 module.exports = app
-
-/*
-CREATE TABLE "task" (
-	task_id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
-	type VARCHAR(10) NOT NULL,
-	title VARCHAR(100) NOT NULL,
-	remark VARCHAR(10),
-	amount NUMERIC(10,2) NOT NULL,
-	user_id UUID REFERENCES "user" (user_id),
-	group_id UUID REFERENCES "group" (group_id),
-	date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-*/

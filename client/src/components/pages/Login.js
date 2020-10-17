@@ -5,7 +5,7 @@ import Spin from './../UI/Spin'
 import { useSelector } from 'react-redux'
 import { userSelector } from './../../store/slices/usersRed'
 import { Redirect } from 'react-router'
-import UserForm from './../helpers/Forms/UserForm'
+import UserForm from './../Forms/UserForm'
 
 export default function Login() {
 	const { auth, loading } = useSelector(userSelector)

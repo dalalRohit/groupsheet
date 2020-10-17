@@ -3,25 +3,9 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { TextField, Button } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { creators } from './../../../store/slices/rootReducer'
-
+import { creators } from '../../store/slices/rootReducer'
+import { loginInputs, regInputs } from './../../config'
 //LOGIN DATA
-const loginInputs = [
-	{
-		id: 2139,
-		name: 'username',
-		type: 'text',
-		label: 'Enter your username',
-		placeholder: 'Enter your username',
-	},
-	{
-		id: 23082913,
-		name: 'password',
-		type: 'password',
-		label: 'Password',
-		placeholder: 'Enter password..',
-	},
-]
 const loginSchema = Yup.object().shape({
 	username: Yup.string().required('Username is Required'),
 	password: Yup.string()
@@ -30,36 +14,6 @@ const loginSchema = Yup.object().shape({
 })
 
 //REGISTER DATA
-const regInputs = [
-	{
-		id: 3901238,
-		name: 'username',
-		type: 'text',
-		label: 'Username',
-		placeholder: 'Enter username..',
-	},
-	{
-		id: 123,
-		name: 'email',
-		type: 'email',
-		label: 'Email Address',
-		placeholder: 'Enter your email',
-	},
-	{
-		id: 42783,
-		name: 'password',
-		type: 'password',
-		label: 'Password',
-		placeholder: 'Enter password..',
-	},
-	{
-		id: 27398,
-		name: 'password2',
-		type: 'password',
-		label: 'Password Confirm',
-		placeholder: 'Enter password again',
-	},
-]
 const regSchema = Yup.object().shape({
 	username: Yup.string().required('Username is required'),
 	email: Yup.string().email().required('Email-ID is Required'),
@@ -102,6 +56,7 @@ export default function UserForm(props) {
 					handleChange,
 					handleBlur,
 					handleSubmit,
+					touched,
 				} = formProps
 				const arrErrors = Array.from(Object.values(errors))
 				return (
@@ -124,8 +79,10 @@ export default function UserForm(props) {
 									value={values[name]}
 									onBlur={handleBlur}
 									placeholder={placeholder}
-									error={errors[name] ? true : false}
-									helperText={errors[name] ? errors[name] : null}
+									error={touched[name] && errors[name] ? true : false}
+									helperText={
+										touched[name] && errors[name] ? errors[name] : null
+									}
 								/>
 							)
 						})}

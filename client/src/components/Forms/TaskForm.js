@@ -1,12 +1,11 @@
 import React from 'react'
 import { TextField, Button, Grid } from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
-import { debitTypes } from './../../../config'
+import { debitTypes } from './../../config'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectors, creators } from './../../../store/slices/rootReducer'
-
+import { selectors, creators } from './../../store/slices/rootReducer'
 //https://github.com/jquense/yup/issues/47#issuecomment-215588412
 const taskSchema = Yup.object().shape({
 	amt: Yup.number()
@@ -23,7 +22,7 @@ export default function TaskForm(props) {
 	const { credit } = props
 	const init = {
 		amt: '',
-		type: 'Select task title..',
+		type: '',
 		remark: '',
 	}
 	const formSubmit = (values) => {
@@ -45,7 +44,14 @@ export default function TaskForm(props) {
 			onSubmit={(values) => formSubmit(values)}
 		>
 			{(formProps) => {
-				const { errors, handleChange, values, handleSubmit } = formProps
+				const {
+					errors,
+					handleChange,
+					values,
+					handleSubmit,
+					touched,
+					handleBlur,
+				} = formProps
 				const arrErrors = Array.from(Object.values(errors))
 				return (
 					<form
@@ -63,8 +69,9 @@ export default function TaskForm(props) {
 									placeholder="Enter task amount"
 									required
 									onChange={handleChange}
-									error={errors.amt ? true : false}
-									helperText={errors.amt ? errors.amt : null}
+									onBlur={handleBlur}
+									error={touched.amt && errors.amt ? true : false}
+									helperText={touched.amt && errors.amt ? errors.amt : null}
 								/>
 							</Grid>
 							<Grid md={6}>
@@ -75,7 +82,6 @@ export default function TaskForm(props) {
 									required
 									label="Select type"
 									value={values.type}
-									placeholder={init.type}
 									onChange={handleChange}
 								>
 									{debitTypes.map(({ name }) => (

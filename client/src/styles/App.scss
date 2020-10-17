@@ -1,23 +1,30 @@
 //===================
 //appLayout.js
 //===================
-.wrapper {
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-}
+
 
 .main {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    height: 94%;
-    min-height: 94%;
+    height: 94vh;
+}
+
+.MainApp {
+    height: 99.9%;
+    margin: 0;
+    padding: 0;
 }
 
 //===================
 //GroupList.js
 //===================
+.group-main {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+}
+
 .groups {
     box-sizing: border-box;
     width: 100%;
@@ -53,7 +60,7 @@
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    background-color: #fff;
+    background-color: #fff5eb;
     border-radius: 5px;
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
         0px 1px 1px 0px rgba(0, 0, 0, 0.14),
@@ -68,7 +75,7 @@
     }
 
     &:hover {
-        background-color: lightgrey
+        background-color: #f6eeee
     }
 }
 
@@ -83,11 +90,14 @@
     width: 100%;
     height: 100%;
     max-width: 100%;
+    max-height: 100%;
 }
 
 .add-task {
     box-sizing: border-box;
-    padding: .5rem 0 .5rem 0;
+    margin: 0.2rem 0 0 0;
+    padding: 0.1rem 0 .1rem 0;
+    background-color: #fff;
 
     div {
         text-align: center;
@@ -102,34 +112,18 @@
     align-items: center;
 }
 
-//https://www.geeksforgeeks.org/how-to-design-full-width-dropdown-navbar-using-bootstrap/
-.dropdown {
-    position: static !important;
-}
-
-.dropdown-menu {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
-    margin-top: 0px !important;
-    width: 75% !important;
-    max-width: 100%;
-}
-
-.dropdown-item {
-    word-wrap: break-word;
-}
 
 //===================
 //AppBar.js
 //===================
 .appbar-wrapper {
     box-sizing: border-box;
-    height: 6%;
-    max-height: 6%;
+    height: 6vh;
+    max-height: 6vh;
     margin: 0;
     padding: 0;
     width: 100%;
     max-width: 100%;
-    background-color: #eee;
 }
 
 //don't touch this
@@ -213,12 +207,13 @@
 }
 
 .tasklist {
-    height: 86vh;
-    min-height: 86vh;
+    box-sizing: border-box;
+    height: 88.2vh;
+    min-height: 88.2vh;
     padding: 0;
-    margin: 0.06rem 0 0 0;
+    margin: 0 0 0 .06rem;
     overflow-y: scroll;
-    background-color: lightcyan;
+    background-color: #f6eeee;
 }
 
 .task {
@@ -241,22 +236,6 @@
     float: right;
 }
 
-.cr {
-    background-color: lightgreen;
-}
-
-.dr {
-    background-color: lightcoral;
-}
-
-.add-task {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
 
 .task-header {
     box-sizing: border-box;

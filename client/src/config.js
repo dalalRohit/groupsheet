@@ -25,3 +25,52 @@ export const debitTypes = [
 	{ name: 'Other' },
 ]
 export const taskLinks = [{ name: 'Delete' }]
+
+//Form data
+export const loginInputs = [
+	{
+		id: 2139,
+		name: 'username',
+		type: 'text',
+		label: 'Enter your username',
+		placeholder: 'Enter your username',
+	},
+	{
+		id: 23082913,
+		name: 'password',
+		type: 'password',
+		label: 'Password',
+		placeholder: 'Enter password..',
+	},
+]
+
+export const regInputs = [
+	{
+		id: 3901238,
+		name: 'username',
+		type: 'text',
+		label: 'Username',
+		placeholder: 'Enter username..',
+	},
+	{
+		id: 123,
+		name: 'email',
+		type: 'email',
+		label: 'Email Address',
+		placeholder: 'Enter your email',
+	},
+	{
+		id: 42783,
+		name: 'password',
+		type: 'password',
+		label: 'Password',
+		placeholder: 'Enter password..',
+	},
+	{
+		id: 27398,
+		name: 'password2',
+		type: 'password',
+		label: 'Password Confirm',
+		placeholder: 'Enter password again',
+	},
+]

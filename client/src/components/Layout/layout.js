@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../helpers/Navbar'
-import Footer from '../helpers/Footer'
+import Header from '../views/Navbar'
+import Footer from '../views/Footer'
 
 const Layout = (props) => {
 	return (
