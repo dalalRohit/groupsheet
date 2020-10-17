@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectors, creators } from './../../store/slices/rootReducer'
 import AppBar from '../views/AppBar'
 import { useHooks } from './../../hooks/hooks'
-import UserContext from './../hoc/SocketManager'
+import SocketManager from './../hoc/withSocket'
 const AppLayout = (props) => {
 	const width = useHooks()
 	const dispatch = useDispatch()
@@ -13,8 +13,8 @@ const AppLayout = (props) => {
 	useEffect(() => {
 		dispatch(creators.checkAuth())
 	}, [dispatch])
-	// if (user_fetching) return <Spin show={user_fetching} />
-	return auth ? (
+
+	const render = (
 		<>
 			<AppBar
 				width={width}
@@ -25,7 +25,9 @@ const AppLayout = (props) => {
 
 			<main className="main">{props.children}</main>
 		</>
-	) : null
+	)
+	// if (user_fetching) return <Spin show={user_fetching} />
+	return auth ? <SocketManager>{render}</SocketManager> : null
 }
 
 export default AppLayout

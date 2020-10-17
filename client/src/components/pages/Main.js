@@ -8,11 +8,11 @@ import Dialog from './../UI/Dialog'
 
 const Main = () => {
 	const [open, setOpen] = React.useState(false)
-
 	const toggle = () => {
 		setOpen(!open)
 	}
 	const width = useHooks()
+
 	return (
 		<AppLayout brand>
 			{/* style={{ height: '100%', minHeight: '100%' }} */}

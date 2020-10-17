@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import io from 'socket.io-client'
 
 export const useHooks = () => {
 	const [width, setWidth] = useState(window.innerWidth)
@@ -17,4 +18,11 @@ export const useHooks = () => {
 		}
 	}, [])
 	return width
+}
+
+export const useSocket = () => {
+	let API = 'http://localhost:5000/'
+	let socket = io(API)
+
+	return socket
 }

@@ -44,7 +44,14 @@ export default function TaskForm(props) {
 			onSubmit={(values) => formSubmit(values)}
 		>
 			{(formProps) => {
-				const { errors, handleChange, values, handleSubmit } = formProps
+				const {
+					errors,
+					handleChange,
+					values,
+					handleSubmit,
+					touched,
+					handleBlur,
+				} = formProps
 				const arrErrors = Array.from(Object.values(errors))
 				return (
 					<form
@@ -62,8 +69,9 @@ export default function TaskForm(props) {
 									placeholder="Enter task amount"
 									required
 									onChange={handleChange}
-									error={errors.amt ? true : false}
-									helperText={errors.amt ? errors.amt : null}
+									onBlur={handleBlur}
+									error={touched.amt && errors.amt ? true : false}
+									helperText={touched.amt && errors.amt ? errors.amt : null}
 								/>
 							</Grid>
 							<Grid md={6}>

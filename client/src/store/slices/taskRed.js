@@ -1,11 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-export const initialState = {
+import { useSocket } from './../../hooks/hooks'
+//Global Socket for this reducer
+const socket = useSocket()
+
+const initialState = {
 	tasks: [],
 	task_fetching: false,
 }
 
-export const taskSlice = createSlice({
+const taskSlice = createSlice({
 	name: 'tasks',
 	initialState: initialState,
 	reducers: {
@@ -31,6 +35,7 @@ export default taskSlice.reducer
 /*==================================
 ALL ASYNC ACTION CREATORS 
 ===================================*/
+
 export const getTasks = (grpId) => async (dispatch) => {
 	dispatch(loading())
 	axios
@@ -41,7 +46,8 @@ export const getTasks = (grpId) => async (dispatch) => {
 		.catch((err) => {})
 }
 
-export const addTask = (socket, data) => async (dispatch, getState) => {
+export const addTask = (data) => async (dispatch, getState) => {
+	// socket.emit('addTask', data)
 	axios
 		.post('/tasks/add', data)
 		.then((res) => {

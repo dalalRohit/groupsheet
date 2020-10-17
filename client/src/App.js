@@ -13,7 +13,7 @@ const LogoutComponent = React.lazy(() => import('./components/pages/Logout'))
 class App extends Component {
 	render() {
 		return (
-			<Suspense fallback={'Loading...'}>
+			<Suspense fallback={'Loading......'}>
 				<Switch>
 					<Route path="/login" exact>
 						<LoginComponent />
