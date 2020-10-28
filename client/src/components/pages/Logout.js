@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { logoutUser, userSelector } from './../../store/slices/usersRed'
+import { userCreators } from './../../store/slices/usersRed'
 export default function Logout() {
 	const dispatch = useDispatch()
 	// const { auth } = useSelector(userSelector)
 
 	useEffect(() => {
-		dispatch(logoutUser())
+		dispatch(userCreators.logoutUser())
 	})
 	return <Redirect to="/login" />
 }

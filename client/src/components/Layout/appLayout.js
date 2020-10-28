@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectors, creators } from './../../store/slices/rootReducer'
+import { selectors } from './../../store/rootReducer'
+import { checkAuth } from './../../store/slices/usersRed'
 import AppBar from '../views/AppBar'
 import { useHooks } from './../../hooks/hooks'
 import SocketManager from './../hoc/withSocket'
@@ -11,7 +12,7 @@ const AppLayout = (props) => {
 
 	const { brand, currentGroup, fetching } = props
 	useEffect(() => {
-		dispatch(creators.checkAuth())
+		dispatch(checkAuth())
 	}, [dispatch])
 
 	const render = (

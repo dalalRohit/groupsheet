@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+
 import {
 	AppBar,
 	Toolbar,
@@ -6,14 +8,17 @@ import {
 	IconButton,
 	makeStyles,
 	Grid,
+	Badge,
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+
 import Drawer from '../views//Drawer'
-import { selectors } from './../../store/slices/rootReducer'
-import { useSelector } from 'react-redux'
-import NotificationsIcon from '@material-ui/icons/Notifications'
+import { selectors } from './../../store/rootReducer'
+
+import MenuIcon from '@material-ui/icons/Menu'
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+
 import { Link } from 'react-router-dom'
 import Menu from './../UI/Menu'
 
@@ -64,7 +69,7 @@ const TopBar = (props) => {
 				<AppBar color="transparent" position="static">
 					<Toolbar>
 						<GroupName grp={grp_name} />
-						<Menu where="group" />
+						<Menu defIcon={true} where="group" />
 					</Toolbar>
 				</AppBar>
 			</div>
@@ -91,7 +96,7 @@ const TopBar = (props) => {
 										</IconButton>
 									</Link>
 									<GroupName grp={group.grp_name} />
-									<Menu where="group" />
+									<Menu icon={true} where="group" />
 								</>
 							) : (
 								<>
@@ -107,8 +112,19 @@ const TopBar = (props) => {
 									<Typography variant="h6" className={classes.title}>
 										GroupSheet
 									</Typography>
-									{/* Notifications */}
-									<NotificationsIcon />
+
+									<Menu defIcon={false} label="notifications" where="notifs">
+										{/* Notifications */}
+										<Badge
+											max={9}
+											overlap="circle"
+											anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+											badgeContent={4}
+											color="secondary"
+										>
+											<NotificationsNoneIcon />
+										</Badge>
+									</Menu>
 								</>
 							)}
 						</Toolbar>

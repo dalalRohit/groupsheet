@@ -43,6 +43,7 @@ const DialogTitle = withStyles(styles)((props) => {
 		</MuiDialogTitle>
 	)
 })
+
 export default function DialogComp(props) {
 	let render = null
 	const { title, onClose, open, credit, where, full } = props

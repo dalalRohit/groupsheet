@@ -1,36 +1,34 @@
 const pool = require('./../db/db')
 const helpers = require('./../utils/queries')
-const moment = require('moment')
 
-const getGroupsById = (id, user) => {
+const getGroupByGroupId = (groupId) => {
 	return new Promise((resolve, reject) => {
-		if (id !== 'all') {
-			pool
-				.query(helpers.getGroup(), [id])
-				.then((data) => {
-					const grp = data.rows[0]
-					resolve(grp)
-				})
-				.catch((err) => {
-					reject(err)
-				})
-		} else {
-			pool
-				.query(helpers.groupsByUser(), [user.user_id])
-				.then((data) => {
-					const groups = data.rows
-					resolve(groups)
-				})
-				.catch((err) => {
-					reject(err)
-				})
-		}
+		pool
+			.query(helpers.getGroup(), [groupId])
+			.then((data) => {
+				const grp = data.rows[0]
+				resolve(grp)
+			})
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+const getGroupsByUserId = (userId) => {
+	return new Promise((resolve, reject) => {
+		pool
+			.query(helpers.groupsByUser(), [userId])
+			.then((data) => {
+				const groups = data.rows
+				resolve(groups)
+			})
+			.catch((err) => {
+				reject(err)
+			})
 	})
 }
 
-const addGroup = (body) => {
-	return new Promise((resolve, reject) => {})
-}
 module.exports = {
-	getGroupsById,
+	getGroupByGroupId,
+	getGroupsByUserId,
 }

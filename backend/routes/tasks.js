@@ -5,7 +5,7 @@ const { getTasksById, addTask } = require('./../controllers/taskCon')
 router.get('/:id', (req, res, next) => {
 	getTasksById(req.params.id)
 		.then((data) => {
-			return res.status(200).json({ tasks: data.rows })
+			return res.status(200).json({ tasks: data })
 		})
 		.catch((err) => {
 			return res.status(500).json({ err })

@@ -1,16 +1,12 @@
 const pool = require('./../db/db')
 const helpers = require('./../utils/queries')
-const moment = require('moment')
 
 const getTasksById = (id) => {
 	return new Promise((resolve, reject) => {
 		pool
 			.query(helpers.getTasks(), [id])
 			.then((data) => {
-				data.rows.filter((task) => {
-					task['date'] = moment(task.date).format('D/M LT')
-				})
-				resolve(data)
+				resolve(data.rows)
 			})
 			.catch((err) => {
 				reject(err)
@@ -20,7 +16,7 @@ const getTasksById = (id) => {
 
 const addTask = (body) => {
 	return new Promise((resolve, reject) => {
-		let { user_id, group_id, type, title, amount, remark } = body
+		let { user_id, group_id, type, title, amount, remark, username } = body
 
 		pool
 			.query(helpers.addTask(), [
@@ -30,6 +26,7 @@ const addTask = (body) => {
 				amount,
 				user_id,
 				group_id,
+				username,
 			])
 			.then((data) => {
 				const x = data.rows[0]

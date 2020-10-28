@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { creators, selectors } from './../../store/slices/rootReducer'
+import { creators, selectors } from './../../store/rootReducer'
 import Spin from './../UI/Spin'
 import Grp from '../UI/Grp'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
@@ -12,7 +12,7 @@ function GroupList(props) {
 
 	const { width } = props
 	useEffect(() => {
-		dispatch(creators.getGroupsForUser())
+		dispatch(creators.groupCreators.getGroupsForUser())
 	}, [dispatch])
 
 	if (fetching) return <Spin show={fetching} />

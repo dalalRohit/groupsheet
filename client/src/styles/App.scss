@@ -96,11 +96,16 @@
 .add-task {
     box-sizing: border-box;
     margin: 0.2rem 0 0 0;
-    padding: 0.1rem 0 .1rem 0;
+    // padding: 0.1rem 0 .1rem 0;
     background-color: #fff;
+    max-height: 6vh;
 
     div {
         text-align: center;
+    }
+
+    button {
+        margin: 0;
     }
 }
 
@@ -208,8 +213,8 @@
 
 .tasklist {
     box-sizing: border-box;
-    height: 88.2vh;
-    min-height: 88.2vh;
+    height: 88.3vh;
+    min-height: 88.3vh;
     padding: 0;
     margin: 0 0 0 .06rem;
     overflow-y: scroll;
@@ -288,7 +293,23 @@
     }
 }
 
+//=============================
+// Notification.js
+//=============================
+.notif {
+    margin: 0 0 0.2rem 0;
+    padding: 0;
+    background-color: lightyellow;
 
+    div:last-child {
+        padding-bottom: 10px;
+    }
+}
+
+//=============================
+// Menu.js
+//=============================
+.myMenu {}
 
 // ------------------------------------------ APP STYLES END HERE-----------------------------------------------------
 

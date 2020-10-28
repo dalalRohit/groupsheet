@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectors, creators } from './../../store/slices/rootReducer'
+import { selectors, creators } from './../../store/rootReducer'
 import { Redirect, useParams } from 'react-router-dom'
 import AppLayout from './../Layout/appLayout'
 import TaskList from '../views/TaskList'
@@ -37,6 +37,8 @@ const TaskLayout = ({ children }) => {
 		</Container>
 	)
 }
+
+// Main Export
 function Group(props) {
 	const width = useHooks()
 	let { id } = useParams()
@@ -48,14 +50,14 @@ function Group(props) {
 
 	useEffect(() => {
 		if (id) {
-			dispatch(creators.getGroup(id))
-			dispatch(creators.getTasks(id))
+			dispatch(creators.groupCreators.getGroup(id))
+			dispatch(creators.taskCreators.getTasks(id))
 		}
 	}, [dispatch, id])
 
 	useEffect(() => {
 		if (partial && group) {
-			dispatch(creators.getTasks(group.group_id))
+			dispatch(creators.taskCreators.getTasks(group.group_id))
 		}
 	}, [dispatch, partial, group])
 
@@ -77,7 +79,9 @@ function Group(props) {
 				</TaskLayout>
 			) : (
 				<div className="choose">
-					<Typography variant="h4">Choose Group</Typography>
+					<Typography color="textPrimary" variant="h4">
+						Choose Group
+					</Typography>
 				</div>
 			)}
 		</GroupLayout>

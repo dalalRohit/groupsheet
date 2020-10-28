@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { clear } from './groupRed'
+import { groupActions } from './groupRed'
 export const initialState = {
 	register: false,
 	loading: false,
@@ -78,6 +78,17 @@ const userSlice = createSlice({
 	},
 })
 
+const actions = userSlice.actions
+export const userActions = {
+	login: actions.login,
+	auth_fail: actions.auth_fail,
+	auth_start: actions.auth_start,
+	user_loaded: actions.user_loaded,
+	user_loading: actions.user_loading,
+	logout: actions.logout,
+	register: actions.register,
+}
+
 export const {
 	login,
 	auth_fail,
@@ -87,6 +98,7 @@ export const {
 	logout,
 	register,
 } = userSlice.actions
+
 export const userSelector = (state) => state.users
 export default userSlice.reducer
 
@@ -94,7 +106,7 @@ export default userSlice.reducer
 ALL ASYNC ACTION CREATORS 
 ===================================*/
 
-export const registerUser = (data) => async (dispatch) => {
+const registerUser = (data) => async (dispatch) => {
 	const x = {
 		username: data.username,
 		email: data.email,
@@ -111,7 +123,7 @@ export const registerUser = (data) => async (dispatch) => {
 }
 
 //https://medium.com/dev-genius/async-api-fetching-with-redux-toolkit-2020-8623ff9da267
-export const loginUser = (data) => async (dispatch) => {
+const loginUser = (data) => async (dispatch) => {
 	dispatch(auth_start())
 	axios
 		.post('/users/flogin', { username: data.username, password: data.password })
@@ -122,16 +134,22 @@ export const loginUser = (data) => async (dispatch) => {
 			dispatch(auth_fail())
 		})
 }
-export const logoutUser = () => async (dispatch) => {
+const logoutUser = () => async (dispatch) => {
 	dispatch(auth_start())
 
 	axios
 		.get('/users/logout', { withCredentials: true })
 		.then((res) => {
 			dispatch(logout())
-			dispatch(clear(false))
+			dispatch(groupActions.clear(false))
 		})
 		.catch((err) => {
 			dispatch(auth_fail())
 		})
+}
+
+export const userCreators = {
+	registerUser,
+	loginUser,
+	logoutUser,
 }

@@ -14,9 +14,11 @@ const TaskButtons = () => {
 		setOpen(false)
 	}
 	return (
-		<Grid className="add-task" justify="space-between" container>
+		<Grid container className="add-task" justify="space-evenly">
 			<Grid item md={4}>
-				<Typography variant="h6">Add New Task</Typography>
+				<Typography color="textPrimary" variant="h6">
+					Add New Task
+				</Typography>
 			</Grid>
 
 			<Grid item md={4}>

@@ -10,7 +10,7 @@ export const grpSlice = createSlice({
 	name: 'groups',
 	initialState: initialState,
 	reducers: {
-		set: (state, payload) => {
+		setGroups: (state, payload) => {
 			state.fetching = false
 			state.groups = payload.payload
 		},
@@ -28,24 +28,26 @@ export const grpSlice = createSlice({
 	},
 })
 
-export const { set, fetching, single, clear } = grpSlice.actions
+const actions = grpSlice.actions
+
+export const { setGroups, fetching, single, clear } = actions
 export const grpSelector = (state) => state.groups
 export default grpSlice.reducer
 
 /*==================================
 ALL ASYNC ACTION CREATORS 
 ===================================*/
-export const getGroupsForUser = () => async (dispatch) => {
+const getGroupsForUser = () => async (dispatch) => {
 	dispatch(fetching())
 	axios
 		.get('/groups/all', { withCredentials: true })
 		.then((res) => {
-			dispatch(set(res.data))
+			dispatch(setGroups(res.data))
 		})
 		.catch((err) => {})
 }
 
-export const getGroup = (id) => async (dispatch) => {
+const getGroup = (id) => async (dispatch) => {
 	dispatch(fetching())
 
 	axios
@@ -54,4 +56,16 @@ export const getGroup = (id) => async (dispatch) => {
 			dispatch(single(res.data))
 		})
 		.catch((err) => {})
+}
+
+export const groupActions = {
+	setGroups: actions.setGroups,
+	fetching: actions.fetching,
+	single: actions.single,
+	clear: actions.clear,
+}
+
+export const groupCreators = {
+	getGroupsForUser,
+	getGroup,
 }

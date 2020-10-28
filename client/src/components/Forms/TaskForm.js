@@ -5,7 +5,7 @@ import { debitTypes } from './../../config'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectors, creators } from './../../store/slices/rootReducer'
+import { selectors, creators } from './../../store/rootReducer'
 //https://github.com/jquense/yup/issues/47#issuecomment-215588412
 const taskSchema = Yup.object().shape({
 	amt: Yup.number()
@@ -26,7 +26,6 @@ export default function TaskForm(props) {
 		remark: '',
 	}
 	const formSubmit = (values) => {
-		//let {user_id,group_id,type,title,amount}=req.body;
 		let x = {
 			amount: values.amt,
 			title: values.type,
@@ -35,7 +34,7 @@ export default function TaskForm(props) {
 			group_id: group.group_id,
 			remark: values.remark,
 		}
-		dispatch(creators.addTask(x))
+		dispatch(creators.taskCreators.addTask(x))
 	}
 	return (
 		<Formik
@@ -60,7 +59,7 @@ export default function TaskForm(props) {
 						onSubmit={handleSubmit}
 					>
 						<Grid container>
-							<Grid md={6}>
+							<Grid item md={6}>
 								<TextField
 									name="amt"
 									type="text"
@@ -74,7 +73,7 @@ export default function TaskForm(props) {
 									helperText={touched.amt && errors.amt ? errors.amt : null}
 								/>
 							</Grid>
-							<Grid md={6}>
+							<Grid item md={6}>
 								<TextField
 									id="select-type"
 									select

@@ -1,7 +1,14 @@
 import React from 'react'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { groupMenuLinks, taskLinks } from './../../config'
-import { Menu, IconButton, MenuItem } from '@material-ui/core'
+import {
+	Menu,
+	IconButton,
+	MenuItem,
+	Divider,
+	Typography,
+} from '@material-ui/core'
+import Notification from './Notification'
 export default function MenuComp(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -12,11 +19,18 @@ export default function MenuComp(props) {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
-	let links = []
-	const { where } = props
+	let links
+	let render
+	const { where, defIcon, children } = props
+
 	switch (where) {
 		case 'group':
 			links = groupMenuLinks
+			break
+		case 'notifs':
+			render = [...new Array(12)].map((x) => {
+				return <Notification>{x}</Notification>
+			})
 			break
 		case 'task':
 			links = taskLinks
@@ -24,23 +38,42 @@ export default function MenuComp(props) {
 	}
 	return (
 		<>
-			<IconButton onClick={handleClick}>
-				<MoreVertIcon color="inherit" />
-			</IconButton>
+			{!defIcon ? (
+				<IconButton aria-label="" onClick={handleClick}>
+					{children}
+					{/* <MoreVertIcon color="inherit" /> */}
+				</IconButton>
+			) : (
+				<IconButton onClick={handleClick}>
+					<MoreVertIcon color="inherit" />
+				</IconButton>
+			)}
 			<Menu
 				id="myCoolMenu"
 				anchorEl={anchorEl}
 				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
+				className="myMenu"
 			>
-				{links.map((link) => {
-					return (
-						<MenuItem key={Math.random()} onClick={handleClose}>
-							{link.name}
-						</MenuItem>
-					)
-				})}
+				{links &&
+					links.map((link) => {
+						return (
+							<MenuItem key={Math.random()} onClick={handleClose}>
+								{link.name}
+							</MenuItem>
+						)
+					})}
+
+				{render && (
+					<>
+						<Typography color="textPrimary">Notifications</Typography>
+						<Divider />
+						{render.map((x) => {
+							return x
+						})}
+					</>
+				)}
 			</Menu>
 		</>
 	)

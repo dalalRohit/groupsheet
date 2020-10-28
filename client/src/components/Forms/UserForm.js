@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { TextField, Button } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { creators } from '../../store/slices/rootReducer'
+import { creators } from '../../store/rootReducer'
 import { loginInputs, regInputs } from './../../config'
 //LOGIN DATA
 const loginSchema = Yup.object().shape({
@@ -45,8 +45,8 @@ export default function UserForm(props) {
 			validationSchema={schema}
 			onSubmit={(values) =>
 				props.login
-					? dispatch(creators.loginUser(values))
-					: dispatch(creators.registerUser(values))
+					? dispatch(creators.userCreators.loginUser(values))
+					: dispatch(creators.userCreators.registerUser(values))
 			}
 		>
 			{(formProps) => {

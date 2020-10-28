@@ -3,7 +3,7 @@ import Layout from './../Layout/layout'
 import UserForm from './../Forms/UserForm'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router'
-import { selectors } from '../../store/slices/rootReducer'
+import { selectors } from '../../store/rootReducer'
 import Spin from '../UI/Spin'
 export default function Register() {
 	const { register, loading } = useSelector(selectors.userSelector)

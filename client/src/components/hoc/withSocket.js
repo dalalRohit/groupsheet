@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import io from 'socket.io-client'
-import { creators, selectors } from './../../store/slices/rootReducer'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { creators } from './../../store/rootReducer'
 export default function SocketManager(props) {
 	const dispatch = useDispatch()
-	const { fetching, user } = useSelector(selectors.userSelector)
-	const { group } = useSelector(selectors.grpSelector)
+
+	const { group } = useSelector((state) => state.groups)
 	const socket = io('http://localhost:5000')
-	const [state, setState] = useState({ tasks: [], groups: [] })
 
 	//Welcome
 	useEffect(() => {
@@ -18,15 +16,18 @@ export default function SocketManager(props) {
 	}, [])
 
 	useEffect(() => {
-		socket.emit('init', {
-			user: user.user_id,
-			group: group ? group.group_id : null,
+		socket.on('newTask', (task) => {
+			if (group && group.group_id === task.group_id) {
+				dispatch(creators.taskCreators.addNewTask(task))
+			} else {
+				console.log('New Task for group: ', task.group_id)
+			}
 		})
 
-		socket.on('storeInit', ({ groups, tasks }) => {
-			console.log({ groups, tasks })
-		})
-	}, [user, group])
-	useEffect(() => {}, [fetching, user, group])
+		return () => {
+			console.log('Leaving Group')
+		}
+	}, [group])
+
 	return props.children
 }
