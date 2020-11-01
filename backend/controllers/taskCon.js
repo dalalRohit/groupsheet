@@ -16,7 +16,17 @@ const getTasksById = (id) => {
 
 const addTask = (body) => {
 	return new Promise((resolve, reject) => {
-		let { user_id, group_id, type, title, amount, remark, username } = body
+		let {
+			user_id,
+			group_id,
+			type,
+			title,
+			amount,
+			remark,
+			username,
+			task_date,
+			date_change,
+		} = body
 
 		pool
 			.query(helpers.addTask(), [
@@ -27,6 +37,8 @@ const addTask = (body) => {
 				user_id,
 				group_id,
 				username,
+				task_date,
+				date_change,
 			])
 			.then((data) => {
 				const x = data.rows[0]

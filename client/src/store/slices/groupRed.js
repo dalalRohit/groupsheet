@@ -4,6 +4,7 @@ export const initialState = {
 	groups: [],
 	fetching: false,
 	group: null,
+	details: false,
 }
 
 export const grpSlice = createSlice({
@@ -18,6 +19,9 @@ export const grpSlice = createSlice({
 			state.fetching = true
 		},
 		single: (state, payload) => {
+			if (state.details) {
+				state.details = false
+			}
 			state.fetching = false
 			state.group = payload.payload
 		},
@@ -25,12 +29,15 @@ export const grpSlice = createSlice({
 			state.fetching = false
 			payload ? (state.groups = null) : (state.group = null)
 		},
+		setGroupDetails: (state) => {
+			state.details = !state.details
+		},
 	},
 })
 
 const actions = grpSlice.actions
 
-export const { setGroups, fetching, single, clear } = actions
+export const { setGroups, fetching, single, clear, setGroupDetails } = actions
 export const grpSelector = (state) => state.groups
 export default grpSlice.reducer
 
@@ -63,6 +70,7 @@ export const groupActions = {
 	fetching: actions.fetching,
 	single: actions.single,
 	clear: actions.clear,
+	setGroupDetails: actions.setGroupDetails,
 }
 
 export const groupCreators = {

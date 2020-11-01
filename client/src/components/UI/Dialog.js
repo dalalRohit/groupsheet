@@ -14,7 +14,7 @@ import {
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import CloseIcon from '@material-ui/icons/Close'
 import TaskForm from '../Forms/TaskForm'
-import GroupForm from '../Forms/GroupForm'
+import GroupEntry from './../views/GroupEntry'
 
 const styles = (theme) => ({
 	closeButton: {
@@ -55,7 +55,7 @@ export default function DialogComp(props) {
 			render = <TaskForm credit={credit} />
 			break
 		case 'groupForm':
-			render = <GroupForm />
+			render = <GroupEntry />
 			break
 		default:
 			render = null

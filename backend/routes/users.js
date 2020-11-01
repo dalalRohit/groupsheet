@@ -8,7 +8,7 @@ const pool = require('./../db/db')
 const helpers = require('./../utils/queries')
 const _ = require('lodash')
 
-router.post('/fsignup', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
 	let { username, email, password } = req.body
 	password = await hashPassword(password)
 	pool
@@ -22,7 +22,7 @@ router.post('/fsignup', async (req, res, next) => {
 		})
 		.catch((err) => {})
 })
-router.post('/flogin', (req, res, next) => {
+router.post('/login', (req, res, next) => {
 	//https://gist.github.com/kerimdzhanov/7529623
 	// const randIndex = Math.floor(Math.random() * (users.length - 0 + 1) + 0)
 	// const user = User(users[randIndex])

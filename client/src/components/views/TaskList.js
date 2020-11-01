@@ -10,51 +10,84 @@ import {
 	Zoom,
 	CssBaseline,
 	Fab,
+	Chip,
 } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import Menu from './../UI/Menu'
-import moment from 'moment'
+import { dateDiffInDays, processDate, getDateForDisplay } from './../../config'
 
-const processDate = (date) => {
-	return moment(date).format('D/M LT')
+const DateChip = ({ date }) => {
+	return (
+		<div className="date">
+			<Chip label={getDateForDisplay(date)} />
+		</div>
+	)
 }
 const TaskCard = (data) => {
-	const { task, loggedInUser } = data
-	let { task_id, type, amount, user_id, date, title, username, remark } = task
+	const { task, loggedInUser, nextTask, index } = data
+	let {
+		task_id,
+		type,
+		amount,
+		user_id,
+		task_date,
+		title,
+		username,
+		remark,
+		date_change,
+	} = task
 	let className = loggedInUser === user_id ? 'task right' : 'task'
 	const color = type === 'DR' ? '#FFDDDD' : '#DDFFDD'
 	username = user_id === loggedInUser ? 'Me' : username
+
 	return (
-		<Card
-			variant="outlined"
-			key={task_id}
-			style={{ backgroundColor: color }}
-			className={className}
-		>
-			<div className="task-header">
-				<Avatar>{username[0].toUpperCase()}</Avatar>
-				<Typography>{username}</Typography>
-				<Menu defIcon={true} where="task" />
-			</div>
+		<>
+			{index === 0 ? <DateChip date={task_date} /> : null}
 
-			<Divider />
+			<Card
+				variant="outlined"
+				key={task_id}
+				style={{ backgroundColor: color }}
+				className={className}
+			>
+				<div className="task-header">
+					<Avatar>{username[0].toUpperCase()}</Avatar>
+					<Typography>{username}</Typography>
+					<Menu defIcon={true} where="task" />
+				</div>
 
-			<CardContent className="task-main">
-				<Typography color="textPrimary" key={task_id}>
-					{title}-{amount}
-				</Typography>
+				<Divider />
 
-				<Typography color="textPrimary" variant="caption">
-					{remark}
-				</Typography>
-			</CardContent>
+				<CardContent className="task-main">
+					<Typography color="textPrimary" key={task_id}>
+						{title}-{amount} &#x20B9;
+					</Typography>
 
-			<div className="task-footer">
-				<Typography color="textSecondary" variant="caption">
-					{processDate(date)}
-				</Typography>
-			</div>
-		</Card>
+					<Typography color="textPrimary" variant="caption">
+						{remark}
+					</Typography>
+				</CardContent>
+
+				<div className="task-footer">
+					{date_change ? (
+						<Chip
+							variant="outlined"
+							color="secondary"
+							size="small"
+							label="Added Later"
+						/>
+					) : null}
+					<Typography color="textSecondary" variant="caption">
+						{processDate(task_date)}
+					</Typography>
+				</div>
+			</Card>
+
+			{nextTask &&
+			dateDiffInDays(new Date(task_date), new Date(nextTask.task_date)) > 0 ? (
+				<DateChip date={nextTask.task_date} />
+			) : null}
+		</>
 	)
 }
 
@@ -65,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
 		right: theme.spacing(2),
 	},
 }))
+
 const ScrollTop = (props) => {
 	const { children, window } = props
 	const classes = useStyles()
@@ -93,10 +127,19 @@ const ScrollTop = (props) => {
 		</Zoom>
 	)
 }
+
 export default function TaskList(props) {
 	const { tasks, userId } = props
-	const render = tasks.map((task) => {
-		return <TaskCard key={task.task_id} task={task} loggedInUser={userId} />
+	const render = tasks.map((task, index) => {
+		return (
+			<TaskCard
+				index={index}
+				nextTask={index === tasks.length - 1 ? null : tasks[index + 1]}
+				key={task.task_id}
+				task={task}
+				loggedInUser={userId}
+			/>
+		)
 	})
 	const myRef = useRef(null)
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Card, CardContent, Typography, MenuItem } from '@material-ui/core'
+import { Typography, MenuItem } from '@material-ui/core'
 export default function Notification(props) {
-	const { children } = props
+	const { children, key } = props
 	return (
-		<MenuItem className="notif">
+		<MenuItem key={key} className="notif">
 			<Typography>Notification-{children}</Typography>
 		</MenuItem>
 	)

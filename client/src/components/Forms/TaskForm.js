@@ -1,5 +1,11 @@
 import React from 'react'
-import { TextField, Button, Grid } from '@material-ui/core'
+import {
+	TextField,
+	Button,
+	Grid,
+	Checkbox,
+	FormControlLabel,
+} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import { debitTypes } from './../../config'
 import * as Yup from 'yup'
@@ -16,6 +22,10 @@ const taskSchema = Yup.object().shape({
 })
 
 export default function TaskForm(props) {
+	const [dateTime, setDateTime] = React.useState('')
+
+	const [dateChange, changeDateAlter] = React.useState(false)
+
 	const dispatch = useDispatch()
 	const { user } = useSelector(selectors.userSelector)
 	const { group } = useSelector(selectors.grpSelector)
@@ -25,6 +35,13 @@ export default function TaskForm(props) {
 		type: '',
 		remark: '',
 	}
+
+	//https://stackoverflow.com/questions/31109961/value-of-datetime-local-with-react
+	const handleDateTimeChange = (ev) => {
+		if (!ev.target['validity'].valid) return
+		const dt = ev.target['value']
+		setDateTime(dt)
+	}
 	const formSubmit = (values) => {
 		let x = {
 			amount: values.amt,
@@ -33,6 +50,10 @@ export default function TaskForm(props) {
 			user_id: user.user_id,
 			group_id: group.group_id,
 			remark: values.remark,
+			date_change: dateChange,
+			task_date: dateChange
+				? new Date(dateTime).getTime() / 1000.0 //get timestamp from the selected date
+				: Date.now() / 1000.0, //get timestamp here as well
 		}
 		dispatch(creators.taskCreators.addTask(x))
 	}
@@ -91,16 +112,49 @@ export default function TaskForm(props) {
 								</TextField>
 							</Grid>
 						</Grid>
+
 						<Grid container>
-							<TextField
-								name="remark"
-								type="text"
-								label="Remark"
-								placeholder="Enter additional remark"
-								value={values.remark}
-								onChange={handleChange}
-							/>
+							<Grid item md={6} xs={6}>
+								<TextField
+									name="remark"
+									type="text"
+									label="Remark"
+									placeholder="Enter additional remark"
+									value={values.remark}
+									onChange={handleChange}
+								/>
+							</Grid>
+							<Grid item md={6} xs={6}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={dateChange}
+											onChange={() => changeDateAlter(!dateChange)}
+											name="dateChange"
+											color="primary"
+										/>
+									}
+									label="Transaction happened at some other date?"
+								/>
+							</Grid>
 						</Grid>
+						{dateChange ? (
+							<Grid container>
+								<Grid item>
+									<TextField
+										id="datetime-local"
+										label="Select DateTime for the Task"
+										type="datetime-local"
+										defaultValue="2017-05-24T10:30"
+										onChange={handleDateTimeChange}
+										value={(dateTime || '').toString().substring(0, 16)}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+								</Grid>
+							</Grid>
+						) : null}
 
 						<Button
 							disabled={arrErrors.length ? true : false}

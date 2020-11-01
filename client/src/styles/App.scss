@@ -233,7 +233,7 @@
     margin: 0 0 1rem 0;
 
     @media screen and (max-width:600px) {
-        width: 45%;
+        width: 48%;
     }
 }
 
@@ -254,11 +254,24 @@
 .task-footer {
     box-sizing: border-box;
     margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     span {
-        font-size: .9rem;
-        float: right;
+        font-size: .8rem;
     }
+
+}
+
+.date {
+    box-sizing: border-box;
+    display: block;
+    clear: both;
+    width: 100%;
+    margin: 0 0 1rem 0;
+    padding: 0.3rem 0 .3rem 0;
+    text-align: center;
 }
 
 //===================

@@ -29,7 +29,7 @@ export default function MenuComp(props) {
 			break
 		case 'notifs':
 			render = [...new Array(12)].map((x) => {
-				return <Notification>{x}</Notification>
+				return <Notification key={x}>{x}</Notification>
 			})
 			break
 		case 'task':
@@ -64,15 +64,14 @@ export default function MenuComp(props) {
 							</MenuItem>
 						)
 					})}
-
 				{render && (
-					<>
+					<div>
 						<Typography color="textPrimary">Notifications</Typography>
 						<Divider />
 						{render.map((x) => {
 							return x
 						})}
-					</>
+					</div>
 				)}
 			</Menu>
 		</>

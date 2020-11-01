@@ -8,6 +8,8 @@ import { Container, Typography } from '@material-ui/core'
 import Spin from './../UI/Spin'
 import { useHooks } from '../../hooks/hooks'
 import TaskButtons from './../views/TaskButtons'
+import PartialLayout from './../Layout/Partial'
+
 //Helper Components
 const NoTask = () => {
 	return (

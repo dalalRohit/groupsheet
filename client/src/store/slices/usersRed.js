@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { groupActions } from './groupRed'
+import { flashActions } from './flashRed'
 export const initialState = {
 	register: false,
 	loading: false,
@@ -113,12 +114,20 @@ const registerUser = (data) => async (dispatch) => {
 		password: data.password,
 	}
 	axios
-		.post('/users/fsignup', x)
+		.post('/users/signup', x)
 		.then((res) => {
 			dispatch(register())
 		})
 		.catch((err) => {
+			console.log(err)
 			dispatch(auth_fail())
+			dispatch(
+				flashActions.set({
+					type: 'warning',
+					msg: (err.response && err.response.data.msg) || err.message,
+					page: 'register',
+				})
+			)
 		})
 }
 
@@ -126,12 +135,19 @@ const registerUser = (data) => async (dispatch) => {
 const loginUser = (data) => async (dispatch) => {
 	dispatch(auth_start())
 	axios
-		.post('/users/flogin', { username: data.username, password: data.password })
+		.post('/users/login', { username: data.username, password: data.password })
 		.then((res) => {
 			dispatch(login(res.data.user))
 		})
 		.catch((err) => {
 			dispatch(auth_fail())
+			dispatch(
+				flashActions.set({
+					type: 'warning',
+					msg: err.response.data.msg,
+					page: 'login',
+				})
+			)
 		})
 }
 const logoutUser = () => async (dispatch) => {
@@ -142,6 +158,13 @@ const logoutUser = () => async (dispatch) => {
 		.then((res) => {
 			dispatch(logout())
 			dispatch(groupActions.clear(false))
+			dispatch(
+				flashActions.set({
+					type: 'success',
+					msg: 'You are logged out!',
+					page: 'login',
+				})
+			)
 		})
 		.catch((err) => {
 			dispatch(auth_fail())

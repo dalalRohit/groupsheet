@@ -1,11 +1,26 @@
 import React from 'react'
-// import { TextField, Button, Grid } from '@material-ui/core'
-// import MenuItem from '@material-ui/core/MenuItem'
-// import * as Yup from 'yup'
-// import { Formik } from 'formik'
 
-const GroupForm = () => {
-	return <h2>GroupForm</h2>
+const JoinGroup = () => {
+	return (
+		<>
+			<h2>JoinGroup</h2>
+		</>
+	)
 }
 
-export default GroupForm
+const CreateGroup = () => {
+	return (
+		<>
+			<h2>CreateGroup</h2>
+		</>
+	)
+}
+export default function GroupForm(props) {
+	const { join, create } = props
+	return (
+		<div>
+			{join && <JoinGroup />}
+			{create && <CreateGroup />}
+		</div>
+	)
+}

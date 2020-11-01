@@ -9,6 +9,8 @@ const LoginComponent = React.lazy(() => import('./components/pages/Login'))
 const RegisterComponent = React.lazy(() =>
 	import('./components/pages/Register')
 )
+
+const GroupDetail = React.lazy(() => import('./components/pages/Detail'))
 const LogoutComponent = React.lazy(() => import('./components/pages/Logout'))
 class App extends Component {
 	render() {
@@ -30,6 +32,9 @@ class App extends Component {
 
 					<Route path="/group/:id" exact>
 						<GroupComponent />
+					</Route>
+					<Route path="/details/:id" exact>
+						<GroupDetail />
 					</Route>
 					<Route path="/logout" exact>
 						<LogoutComponent />

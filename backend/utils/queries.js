@@ -34,14 +34,15 @@ const getGroup = () => {
 //TASK QUERIES
 //============================
 const addTask = () => {
-	return `INSERT INTO "task" (type,title,remark,amount,user_id,group_id,username) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`
+	return `INSERT INTO "task" (type,title,remark,amount,user_id,group_id,username,task_date,date_change) 
+	VALUES ($1,$2,$3,$4,$5,$6,$7,to_timestamp($8),$9) RETURNING *`
 }
 
 const getTasks = () => {
 	return `
 		SELECT "task".* , "user".username FROM "task"
 		JOIN "user" ON "task".user_id = "user".user_id
-		WHERE "task".group_id = $1 ORDER BY date`
+		WHERE "task".group_id = $1 ORDER BY task_date`
 }
 
 //============================

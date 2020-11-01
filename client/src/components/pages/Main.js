@@ -1,12 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import AppLayout from './../Layout/appLayout'
 import Group from './Group'
+import GroupDetails from './Detail'
 import GroupList from './../views/GroupList'
 import { Grid, Button } from '@material-ui/core'
 import { useHooks } from './../../hooks/hooks'
 import Dialog from './../UI/Dialog'
-
+// import { selectors } from './../../store/rootReducer'
 const Main = () => {
+	const { details } = useSelector((state) => state.groups)
 	const [open, setOpen] = React.useState(false)
 	const toggle = () => {
 		setOpen(!open)
@@ -17,7 +20,8 @@ const Main = () => {
 		<AppLayout brand>
 			{/* style={{ height: '100%', minHeight: '100%' }} */}
 			<Grid className="MainApp" container>
-				<Grid className="group-main" item xs={12} md={4}>
+				{/* GroupList */}
+				<Grid className="group-main" item xs={12} md={3}>
 					<GroupList width={width} />
 					<Button
 						fullWidth
@@ -38,9 +42,17 @@ const Main = () => {
 					) : null}
 				</Grid>
 
+				{/* Tasks,GroupHeader */}
 				{width >= 960 ? (
-					<Grid item md={8}>
+					<Grid item md={details ? 6 : 9}>
 						<Group partial={true} />
+					</Grid>
+				) : null}
+
+				{/* GroupDetails */}
+				{width >= 960 && details ? (
+					<Grid item md={3}>
+						<GroupDetails />
 					</Grid>
 				) : null}
 			</Grid>
