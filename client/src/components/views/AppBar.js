@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { useLocation } from 'react-router-dom'
 import {
 	AppBar,
 	Toolbar,
@@ -22,6 +22,7 @@ import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined'
 
 import { Link } from 'react-router-dom'
 import Menu from './../UI/Menu'
+import Spin from '../UI/Spin'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TopBar = (props) => {
 	const dispatch = useDispatch()
+	const location = useLocation()
 	const { group, details } = useSelector(selectors.grpSelector)
 	const { auth, user } = useSelector(selectors.userSelector)
 
@@ -65,36 +67,53 @@ const TopBar = (props) => {
 					className={classes.menuButton}
 					fontSize="large"
 				/>
-				<Typography
-					onClick={() => dispatch(actions.groupActions.setGroupDetails())}
-					className={classes.groupName}
-					variant="h5"
-				>
-					{grp}
-				</Typography>
+				{width <= 960 ? (
+					<Typography className={classes.groupName} variant="h5">
+						<Link to={`/details/${group.group_id}`}>{grp}</Link>
+					</Typography>
+				) : (
+					<Typography
+						onClick={() => dispatch(actions.groupActions.setGroupDetails())}
+						className={classes.groupName}
+						variant="h5"
+					>
+						{grp}
+					</Typography>
+				)}
 			</>
 		)
 	}
 	const ChatBar = (data) => {
 		const { group } = data
 		const { grp_name } = group
-		return (
+		return fetching ? null : (group &&
+				width > 960 &&
+				location.pathname === '/app') ||
+		  (group && width <= 960 && location.pathname.startsWith('/group/')) ? (
 			<div className="chatbar">
 				<AppBar color="transparent" position="static">
 					<Toolbar>
+						{width <= 960 ? (
+							<Link to="/app">
+								<IconButton>
+									<ArrowBackIcon />
+								</IconButton>
+							</Link>
+						) : null}
 						<GroupName grp={grp_name} />
 						<Menu defIcon={true} where="group" />
 					</Toolbar>
 				</AppBar>
 			</div>
-		)
+		) : null
 	}
 
 	const DetailsBar = ({ group }) => {
-		return (
-			<div className="chatbar">
+		return location.pathname.startsWith('/details/') ? (
+			<div className="detailsbar">
 				<AppBar color="secondary" position="static">
 					<Toolbar>
+						{width <= 960 ? 'back icon' : null}
 						<IconButton
 							onClick={() => dispatch(actions.groupActions.setGroupDetails())}
 						>
@@ -104,71 +123,66 @@ const TopBar = (props) => {
 					</Toolbar>
 				</AppBar>
 			</div>
-		)
+		) : null
+	}
+
+	const MainBar = () => {
+		return fetching ? null : (!details && !group) ||
+		  location.pathname === '/app' ? (
+			<Toolbar>
+				<IconButton
+					edge="start"
+					className={classes.menuButton}
+					color="inherit"
+					aria-label="menu"
+					onClick={toggleDrawer}
+				>
+					<MenuIcon />
+				</IconButton>
+				<Typography variant="h6" className={classes.title}>
+					GroupSheet
+				</Typography>
+
+				<Menu defIcon={false} label="notifications" where="notifs">
+					{/* Notifications */}
+					<Badge
+						max={9}
+						overlap="circle"
+						anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+						badgeContent={4}
+						color="secondary"
+					>
+						<NotificationsNoneIcon />
+					</Badge>
+				</Menu>
+			</Toolbar>
+		) : null
 	}
 	return (
 		<Grid container style={{ flexGrow: 1 }} className="appbar-wrapper">
-			<Grid item md={3} xs={12}>
-				<div className="appbar">
-					<Drawer
-						auth={auth}
-						user={user}
-						toggle={toggleDrawer}
-						open={sidebar}
-					/>
-					<AppBar position="static">
-						<Toolbar>
-							{fetching ? null : currentGroup ? (
-								<>
-									<Link to="/app">
-										<IconButton color="inherit" className={classes.menuButton}>
-											<ArrowBackIcon />
-										</IconButton>
-									</Link>
-									<GroupName grp={group.grp_name} />
-									<Menu icon={true} where="group" />
-								</>
-							) : (
-								<>
-									<IconButton
-										edge="start"
-										className={classes.menuButton}
-										color="inherit"
-										aria-label="menu"
-										onClick={toggleDrawer}
-									>
-										<MenuIcon />
-									</IconButton>
-									<Typography variant="h6" className={classes.title}>
-										GroupSheet
-									</Typography>
+			{location.pathname === '/app' ? (
+				<Grid item md={3} xs={12}>
+					<div className="appbar">
+						<Drawer
+							auth={auth}
+							user={user}
+							toggle={toggleDrawer}
+							open={sidebar}
+						/>
+						<AppBar position="static">
+							<MainBar />
+						</AppBar>
+					</div>
+				</Grid>
+			) : null}
 
-									<Menu defIcon={false} label="notifications" where="notifs">
-										{/* Notifications */}
-										<Badge
-											max={9}
-											overlap="circle"
-											anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-											badgeContent={4}
-											color="secondary"
-										>
-											<NotificationsNoneIcon />
-										</Badge>
-									</Menu>
-								</>
-							)}
-						</Toolbar>
-					</AppBar>
-				</div>
-			</Grid>
-
-			{width >= 960 && group ? (
-				<Grid item sm={1} md={details ? 6 : 9}>
+			{group ? (
+				<Grid item xs={12} md={details ? 6 : 9}>
 					<ChatBar group={group} />
 				</Grid>
 			) : null}
 
-			{width >= 960 && details ? (
+			{details ? (
 				<Grid item md={3}>
 					<DetailsBar group={group} />
 				</Grid>

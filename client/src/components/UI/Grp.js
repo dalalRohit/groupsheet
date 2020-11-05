@@ -10,7 +10,7 @@ export default function Grp(props) {
 	let className =
 		current && group.group_id === current.group_id ? 'grp current' : 'grp'
 	const render =
-		width < 960 ? (
+		width <= 960 ? (
 			<Link className="grp" to={`/group/${group.group_id}`}>
 				<PeopleIcon />
 				<Typography>{group.grp_name}</Typography>

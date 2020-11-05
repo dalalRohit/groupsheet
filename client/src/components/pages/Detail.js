@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from './../Layout/appLayout'
-import { Slide } from '@material-ui/core'
-import { useParams } from 'react-router-dom'
-export default function Detail() {
-	const [checked, setChecked] = React.useState(false)
-
-	const handleChange = () => {
-		setChecked((prev) => !prev)
-	}
+import { useParams, Redirect } from 'react-router-dom'
+import { selectors, actions, creators } from './../../store/rootReducer'
+import { useHooks } from './../../hooks/hooks'
+export default function Detail(props) {
+	const dispatch = useDispatch()
 	const { id } = useParams()
-
-	return (
-		<Slide direction="left" mountOnEnter unmountOnExit>
-			GroupDetails
-		</Slide>
-	)
+	const { group, fetching } = useSelector(selectors.grpSelector)
+	useEffect(() => {
+		if (id) {
+			dispatch(actions.groupActions.setGroupDetails())
+			dispatch(creators.groupCreators.getGroup(id))
+			dispatch(creators.groupCreators.getGroupDetails(id))
+		}
+	}, [id])
+	const render = <>GroupDetails</>
+	return group ? (
+		<AppLayout brand={false} currentGroup={group}>
+			{render}
+		</AppLayout>
+	) : null
 }

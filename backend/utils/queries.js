@@ -30,6 +30,12 @@ const getGroup = () => {
 	return `SELECT * FROM "group" WHERE group_id = $1`
 }
 
+const getGroupMembers = () => {
+	return `SELECT "user".username,"user".joined FROM "user" 
+	JOIN "user_groups" ON "user_groups".user_id="user".user_id
+	WHERE "user_groups".group_id = $1 `
+}
+
 //============================
 //TASK QUERIES
 //============================
@@ -65,6 +71,7 @@ const helpers = {
 	addGroup,
 	groupsByUser,
 	getGroup,
+	getGroupMembers,
 
 	//task
 	addTask,

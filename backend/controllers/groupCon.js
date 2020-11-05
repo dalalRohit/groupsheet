@@ -28,7 +28,23 @@ const getGroupsByUserId = (userId) => {
 	})
 }
 
+const getGroupMembers = (groupId) => {
+	const members = []
+	return new Promise((resolve, reject) => {
+		pool
+			.query(helpers.getGroupMembers(), [groupId])
+			.then((data) => {
+				resolve(data.rows)
+				members.push(data.rows)
+			})
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
 module.exports = {
 	getGroupByGroupId,
 	getGroupsByUserId,
+	getGroupMembers,
 }

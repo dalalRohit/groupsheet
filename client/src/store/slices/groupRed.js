@@ -54,15 +54,31 @@ const getGroupsForUser = () => async (dispatch) => {
 		.catch((err) => {})
 }
 
-const getGroup = (id) => async (dispatch) => {
+const getGroup = (id) => async (dispatch, getState) => {
 	dispatch(fetching())
-
-	axios
-		.get(`/groups/${id}`)
-		.then((res) => {
-			dispatch(single(res.data))
+	const { groups } = getState()
+	if (groups.groups && groups.groups.length) {
+		const allGroups = groups.groups
+		allGroups.filter((grp) => {
+			if (grp.group_id === id) {
+				return dispatch(single(grp))
+			}
 		})
-		.catch((err) => {})
+	} else {
+		axios
+			.get(`/groups/${id}`)
+			.then((res) => {
+				dispatch(single(res.data))
+			})
+			.catch((err) => {})
+	}
+}
+
+const getGroupDetails = (id) => async (dispatch) => {
+	dispatch(getGroup(id))
+	axios.get(`/groups/details/${id}`).then((res) => {
+		console.log(res.data)
+	})
 }
 
 export const groupActions = {
@@ -76,4 +92,5 @@ export const groupActions = {
 export const groupCreators = {
 	getGroupsForUser,
 	getGroup,
+	getGroupDetails,
 }

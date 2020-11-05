@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from './../Layout/appLayout'
 import Group from './Group'
 import GroupDetails from './Detail'
@@ -7,9 +7,13 @@ import GroupList from './../views/GroupList'
 import { Grid, Button } from '@material-ui/core'
 import { useHooks } from './../../hooks/hooks'
 import Dialog from './../UI/Dialog'
-// import { selectors } from './../../store/rootReducer'
+import { selectors, actions } from './../../store/rootReducer'
 const Main = () => {
-	const { details } = useSelector((state) => state.groups)
+	const { details, group } = useSelector((state) => state.groups)
+	const dispatch = useDispatch()
+	// useEffect(() => {
+	// 	if (group) dispatch(actions.groupActions.clear())
+	// }, [group])
 	const [open, setOpen] = React.useState(false)
 	const toggle = () => {
 		setOpen(!open)
@@ -52,7 +56,7 @@ const Main = () => {
 				{/* GroupDetails */}
 				{width >= 960 && details ? (
 					<Grid item md={3}>
-						<GroupDetails />
+						<GroupDetails partial={true} />
 					</Grid>
 				) : null}
 			</Grid>
