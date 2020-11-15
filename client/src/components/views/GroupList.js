@@ -8,14 +8,14 @@ import { Container, Typography } from '@material-ui/core'
 function GroupList(props) {
 	const dispatch = useDispatch()
 
-	const { fetching, groups, group } = useSelector(selectors.grpSelector)
+	const { fetching_group, groups, group } = useSelector(selectors.grpSelector)
 
 	const { width } = props
 	useEffect(() => {
 		dispatch(creators.groupCreators.getGroupsForUser())
 	}, [dispatch])
 
-	if (fetching) return <Spin show={fetching} />
+	if (fetching_group) return <Spin show={fetching_group} />
 
 	return groups && groups.length ? (
 		<Container disableGutters className="groups">

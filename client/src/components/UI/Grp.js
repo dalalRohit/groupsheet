@@ -20,7 +20,9 @@ export default function Grp(props) {
 			<div className={className} key={group.group_id}>
 				<PeopleIcon />
 				<Typography
-					onClick={() => dispatch(actions.groupActions.single(group))}
+					onClick={() =>
+						dispatch(actions.groupActions.setGroup({ group, clear: true }))
+					}
 				>
 					{group.grp_name}
 				</Typography>

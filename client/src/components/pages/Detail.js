@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from './../Layout/appLayout'
-import { useParams, Redirect } from 'react-router-dom'
-import { selectors, actions, creators } from './../../store/rootReducer'
-import { useHooks } from './../../hooks/hooks'
-export default function Detail(props) {
+import { useParams } from 'react-router-dom'
+import { selectors, creators } from './../../store/rootReducer'
+import Spin from '../UI/Spin'
+function Detail(props) {
+	const { partial } = props
 	const dispatch = useDispatch()
 	const { id } = useParams()
-	const { group, fetching } = useSelector(selectors.grpSelector)
+	const { group, details, fetching_details } = useSelector(
+		selectors.grpSelector
+	)
 	useEffect(() => {
 		if (id) {
-			dispatch(actions.groupActions.setGroupDetails())
-			dispatch(creators.groupCreators.getGroup(id))
 			dispatch(creators.groupCreators.getGroupDetails(id))
 		}
 	}, [id])
 	const render = <>GroupDetails</>
-	return group ? (
-		<AppLayout brand={false} currentGroup={group}>
-			{render}
-		</AppLayout>
+
+	if (fetching_details) return <Spin show={fetching_details} />
+	return details ? (
+		partial ? (
+			render
+		) : (
+			<AppLayout brand={false} fetching={fetching_details} currentGroup={group}>
+				{details ? render : null}
+			</AppLayout>
+		)
 	) : null
 }
+
+export default React.memo(Detail)

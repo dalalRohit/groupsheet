@@ -1,20 +1,38 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/main.scss'
 import './styles/App.scss'
-
+import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import store from './store/configureStore'
 import { Provider } from 'react-redux'
 
+//https://blog.logrocket.com/3-ways-to-add-custom-fonts-to-your-material-ui-project/
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main: '#A8DADC',
+		},
+		secondary: {
+			main: '#E63946',
+		},
+		info: {
+			main: '#457B9D',
+		},
+	},
+	typography: {
+		fontFamily: ['Poppins', 'sans-serif'].join(','),
+	},
+})
 const app = (
 	<Provider store={store}>
 		<BrowserRouter>
-			<App />
+			<ThemeProvider theme={theme}>
+				<App />
+			</ThemeProvider>
 		</BrowserRouter>
 	</Provider>
 )

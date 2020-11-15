@@ -10,10 +10,6 @@ import Dialog from './../UI/Dialog'
 import { selectors, actions } from './../../store/rootReducer'
 const Main = () => {
 	const { details, group } = useSelector((state) => state.groups)
-	const dispatch = useDispatch()
-	// useEffect(() => {
-	// 	if (group) dispatch(actions.groupActions.clear())
-	// }, [group])
 	const [open, setOpen] = React.useState(false)
 	const toggle = () => {
 		setOpen(!open)
@@ -54,7 +50,7 @@ const Main = () => {
 				) : null}
 
 				{/* GroupDetails */}
-				{width >= 960 && details ? (
+				{details && width >= 960 ? (
 					<Grid item md={3}>
 						<GroupDetails partial={true} />
 					</Grid>

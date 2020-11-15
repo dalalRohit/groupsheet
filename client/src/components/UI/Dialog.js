@@ -14,7 +14,7 @@ import {
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import CloseIcon from '@material-ui/icons/Close'
 import TaskForm from '../Forms/TaskForm'
-import GroupEntry from './../views/GroupEntry'
+import Entry from '../views/Entry'
 
 const styles = (theme) => ({
 	closeButton: {
@@ -46,16 +46,16 @@ const DialogTitle = withStyles(styles)((props) => {
 
 export default function DialogComp(props) {
 	let render = null
-	const { title, onClose, open, credit, where, full } = props
+	const { title, onClose, open, where, full } = props
 	const theme = useTheme()
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
 	switch (where) {
 		case 'taskForm':
-			render = <TaskForm credit={credit} />
+			render = <Entry where="TASK_ENTRY" />
 			break
 		case 'groupForm':
-			render = <GroupEntry />
+			render = <Entry where="GROUP_ENTRY" />
 			break
 		default:
 			render = null
@@ -71,15 +71,14 @@ export default function DialogComp(props) {
 
 			<DialogContent>
 				<DialogContentText>
-					To subscribe to this website, please enter your email address here. We
-					will send updates occasionally.
+					Click on the Button or Press Enter to Submit
 				</DialogContentText>
 
 				{render}
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={onClose} color="primary">
+				<Button onClick={onClose} variant="outlined">
 					Cancel
 				</Button>
 			</DialogActions>

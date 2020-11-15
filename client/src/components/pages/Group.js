@@ -8,14 +8,16 @@ import { Container, Typography } from '@material-ui/core'
 import Spin from './../UI/Spin'
 import { useHooks } from '../../hooks/hooks'
 import TaskButtons from './../views/TaskButtons'
-import PartialLayout from './../Layout/Partial'
 
+import Choose from './../../static/images/choose-group.svg'
+import NoTaskImage from './../../static/images/no-data.svg'
 //Helper Components
 const NoTask = () => {
 	return (
 		<div className="no-tasks">
-			<Typography color="textSecondary" variant="h4">
-				No tasks found for this group!
+			<img className="illus" src={NoTaskImage} />
+			<Typography variant="h5" color="textPrimary">
+				No Tasks found for this group
 			</Typography>
 		</div>
 	)
@@ -43,10 +45,10 @@ const TaskLayout = ({ children }) => {
 // Main Export
 function Group(props) {
 	const width = useHooks()
-	let { id } = useParams()
+	const { id } = useParams()
 	const dispatch = useDispatch()
 	let { user } = useSelector(selectors.userSelector)
-	let { groups, group, fetching } = useSelector(selectors.grpSelector)
+	let { groups, group, fetching_group } = useSelector(selectors.grpSelector)
 	let { tasks, task_fetching } = useSelector(selectors.taskSelector)
 	const { partial } = props
 
@@ -81,8 +83,9 @@ function Group(props) {
 				</TaskLayout>
 			) : (
 				<div className="choose">
-					<Typography color="textPrimary" variant="h4">
-						Choose Group
+					<img className="illus" src={Choose} />
+					<Typography variant="h5" color="textPrimary">
+						Select group
 					</Typography>
 				</div>
 			)}
@@ -90,7 +93,7 @@ function Group(props) {
 	)
 
 	return !partial ? (
-		<AppLayout brand={false} fetching={fetching} currentGroup={group}>
+		<AppLayout brand={false} fetching={fetching_group} currentGroup={group}>
 			{group ? render : null}
 		</AppLayout>
 	) : (

@@ -61,7 +61,11 @@ export default function TaskForm(props) {
 		<Formik
 			initialValues={init}
 			validationSchema={taskSchema}
-			onSubmit={(values) => formSubmit(values)}
+			onSubmit={(values, { resetForm }) => {
+				formSubmit(values)
+				//https://github.com/formium/formik/issues/446#issuecomment-594104000
+				resetForm()
+			}}
 		>
 			{(formProps) => {
 				const {
@@ -163,7 +167,7 @@ export default function TaskForm(props) {
 							type="submit"
 							onClick={handleSubmit}
 						>
-							Add Task
+							{credit ? 'CREDIT' : 'DEBIT'} Task
 						</Button>
 					</form>
 				)

@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
 import { Tabs, Box, Tab, Typography, AppBar } from '@material-ui/core'
-import GroupForm from './../Forms/GroupForm'
-
-// import MenuItem from '@material-ui/core/MenuItem'
-// import * as Yup from 'yup'
-// import { Formik } from 'formik'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -25,7 +20,7 @@ function TabPanel(props) {
 		</div>
 	)
 }
-const GroupEntry = () => {
+const Panel = (props) => {
 	const a11yProps = (index) => {
 		return {
 			id: `simple-tab-${index}`,
@@ -34,31 +29,40 @@ const GroupEntry = () => {
 	}
 	const [value, setValue] = useState(0)
 
+	//Destructure props
+	const { data } = props
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}
 	return (
 		<>
 			<AppBar position="static" color="default">
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					aria-label="simple tabs example"
-					variant="fullWidth"
-					indicatorColor="primary"
-				>
-					<Tab label="Create Group" {...a11yProps(0)} />
-					<Tab label="Join Group" {...a11yProps(1)} />
-				</Tabs>
+				{data && data.length ? (
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						aria-label="tab panel"
+						variant="fullWidth"
+						indicatorColor="primary"
+					>
+						{data.map(({ label }, i) => {
+							return (
+								<Tab color="primary" key={i} label={label} {...a11yProps(i)} />
+							)
+						})}
+					</Tabs>
+				) : null}
 			</AppBar>
-			<TabPanel value={value} index={0}>
-				<GroupForm create={true} />
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<GroupForm join={true} />
-			</TabPanel>
+
+			{data.map(({ label, comp }, i) => {
+				return (
+					<TabPanel key={label} value={value} index={i}>
+						<>{comp}</>
+					</TabPanel>
+				)
+			})}
 		</>
 	)
 }
 
-export default GroupEntry
+export default Panel

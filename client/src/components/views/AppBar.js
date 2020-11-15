@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 import {
 	AppBar,
 	Toolbar,
@@ -14,13 +13,14 @@ import {
 import Drawer from '../views//Drawer'
 import { selectors, actions } from './../../store/rootReducer'
 
+//icons
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import CloseIcon from '@material-ui/icons/Close'
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import Menu from './../UI/Menu'
 import Spin from '../UI/Spin'
 
@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		flexGrow: 2,
 	},
+	secBg: {
+		backgroundColor: theme.palette.info.main,
+		color: '#F1FAEE',
+	},
 	groupName: {
 		flexGrow: 2,
 
@@ -44,14 +48,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const TopBar = (props) => {
+const IndexBar = (props) => {
 	const dispatch = useDispatch()
 	const location = useLocation()
-	const { group, details } = useSelector(selectors.grpSelector)
+	const history = useHistory()
+	const { group, details, fetching_details } = useSelector(
+		selectors.grpSelector
+	)
 	const { auth, user } = useSelector(selectors.userSelector)
 
 	const classes = useStyles()
-	const { currentGroup, fetching, width } = props
+	const { currentGroup, fetching, width, brand } = props
 
 	const [sidebar, setDrawer] = useState(false)
 
@@ -73,7 +80,7 @@ const TopBar = (props) => {
 					</Typography>
 				) : (
 					<Typography
-						onClick={() => dispatch(actions.groupActions.setGroupDetails())}
+						onClick={() => dispatch(actions.groupActions.setDetails(true))}
 						className={classes.groupName}
 						variant="h5"
 					>
@@ -83,13 +90,11 @@ const TopBar = (props) => {
 			</>
 		)
 	}
-	const ChatBar = (data) => {
+
+	const GroupBar = (data) => {
 		const { group } = data
 		const { grp_name } = group
-		return fetching ? null : (group &&
-				width > 960 &&
-				location.pathname === '/app') ||
-		  (group && width <= 960 && location.pathname.startsWith('/group/')) ? (
+		return fetching ? null : (
 			<div className="chatbar">
 				<AppBar color="transparent" position="static">
 					<Toolbar>
@@ -105,25 +110,31 @@ const TopBar = (props) => {
 					</Toolbar>
 				</AppBar>
 			</div>
-		) : null
+		)
 	}
 
 	const DetailsBar = ({ group }) => {
-		return location.pathname.startsWith('/details/') ? (
+		return fetching_details ? null : (
 			<div className="detailsbar">
-				<AppBar color="secondary" position="static">
+				<AppBar className={classes.secBg} color="inherit" position="static">
 					<Toolbar>
-						{width <= 960 ? 'back icon' : null}
-						<IconButton
-							onClick={() => dispatch(actions.groupActions.setGroupDetails())}
-						>
-							<CloseIcon />
-						</IconButton>
+						{width <= 960 ? (
+							<IconButton onClick={() => history.goBack()}>
+								<ArrowBackIcon />
+							</IconButton>
+						) : (
+							<IconButton
+								onClick={() => dispatch(actions.groupActions.setDetails(false))}
+							>
+								<CloseIcon />
+							</IconButton>
+						)}
+
 						<Typography>Group Details of {group.grp_name}</Typography>
 					</Toolbar>
 				</AppBar>
 			</div>
-		) : null
+		)
 	}
 
 	const MainBar = () => {
@@ -160,7 +171,7 @@ const TopBar = (props) => {
 	}
 	return (
 		<Grid container style={{ flexGrow: 1 }} className="appbar-wrapper">
-			{location.pathname === '/app' ? (
+			{location.pathname === '/app' || (width <= 960 && !group && !details) ? (
 				<Grid item md={3} xs={12}>
 					<div className="appbar">
 						<Drawer
@@ -176,14 +187,16 @@ const TopBar = (props) => {
 				</Grid>
 			) : null}
 
-			{group ? (
+			{(group && width > 960 && location.pathname === '/app') ||
+			(group && width <= 960 && location.pathname.startsWith('/group/')) ? (
 				<Grid item xs={12} md={details ? 6 : 9}>
-					<ChatBar group={group} />
+					<GroupBar group={group} />
 				</Grid>
 			) : null}
 
-			{details ? (
-				<Grid item md={3}>
+			{(details && width <= 960 && location.pathname.startsWith('/details/')) ||
+			(details && width > 960 && location.pathname === '/app') ? (
+				<Grid item xs={12} md={3}>
 					<DetailsBar group={group} />
 				</Grid>
 			) : null}
@@ -191,4 +204,4 @@ const TopBar = (props) => {
 	)
 }
 
-export default React.memo(TopBar)
+export default React.memo(IndexBar)
