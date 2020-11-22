@@ -9,6 +9,7 @@ function GroupList(props) {
 	const dispatch = useDispatch()
 
 	const { fetching_group, groups, group } = useSelector(selectors.grpSelector)
+	const { tasks } = useSelector(selectors.taskSelector)
 
 	const { width } = props
 	useEffect(() => {

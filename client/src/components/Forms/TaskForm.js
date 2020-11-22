@@ -64,7 +64,7 @@ export default function TaskForm(props) {
 			onSubmit={(values, { resetForm }) => {
 				formSubmit(values)
 				//https://github.com/formium/formik/issues/446#issuecomment-594104000
-				resetForm()
+				// resetForm()
 			}}
 		>
 			{(formProps) => {

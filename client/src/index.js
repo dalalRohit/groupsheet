@@ -10,7 +10,9 @@ import { BrowserRouter } from 'react-router-dom'
 import store from './store/configureStore'
 import { Provider } from 'react-redux'
 
+/*
 //https://blog.logrocket.com/3-ways-to-add-custom-fonts-to-your-material-ui-project/
+//This is causing performance hit
 const theme = createMuiTheme({
 	palette: {
 		primary: {
@@ -27,12 +29,13 @@ const theme = createMuiTheme({
 		fontFamily: ['Poppins', 'sans-serif'].join(','),
 	},
 })
+*/
 const app = (
 	<Provider store={store}>
 		<BrowserRouter>
-			<ThemeProvider theme={theme}>
-				<App />
-			</ThemeProvider>
+			{/* <ThemeProvider theme={theme}> */}
+			<App />
+			{/* </ThemeProvider> */}
 		</BrowserRouter>
 	</Provider>
 )

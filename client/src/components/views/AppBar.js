@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'&:hover': {
 			cursor: 'pointer',
-			background: '#eee',
+			color: theme.palette.info.dark,
 		},
 	},
 }))

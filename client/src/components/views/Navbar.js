@@ -1,44 +1,42 @@
-import React, { useState } from 'react'
-import {
-	Collapse,
-	Navbar,
-	NavbarToggler,
-	NavbarBrand,
-	Nav,
-	NavItem,
-} from 'reactstrap'
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import { NavLink } from 'react-router-dom'
+import { AppBar, Toolbar, Typography, Grid, MenuItem } from '@material-ui/core'
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+	},
+}))
 //https://stackoverflow.com/questions/19733447/bootstrap-navbar-with-left-center-or-right-aligned-items
 const Header = (props) => {
-	const [isOpen, setIsOpen] = useState(false)
-
-	const toggle = () => setIsOpen(!isOpen)
-
+	const classes = useStyles()
 	const links = ['Home', 'Login', 'Register']
-	const authLinks = ['Profile', 'Logout', 'Setting']
+
 	return (
-		<header>
-			<Navbar color="dark" dark expand="md">
-				<NavbarBrand>GroupSheet</NavbarBrand>
-				<NavbarToggler onClick={toggle} />
-				<Collapse isOpen={isOpen} navbar>
-					<Nav className="ml-auto" navbar>
+		<div className={classes.root}>
+			<AppBar position="static">
+				<Toolbar variant="dense">
+					<Typography variant="h6" color="inherit">
+						GroupSheet
+					</Typography>
+					<Grid style={{ flexGrow: 2 }} container>
 						{links.map((link) => {
 							return (
-								<NavItem key={Math.random()}>
+								<Grid item key={Math.random()}>
 									<NavLink
 										activeClassName="active"
 										to={`/${link.toLowerCase()}`}
 									>
-										{link}
+										<MenuItem>{link}</MenuItem>
 									</NavLink>
-								</NavItem>
+								</Grid>
 							)
 						})}
-					</Nav>
-				</Collapse>
-			</Navbar>
-		</header>
+					</Grid>
+				</Toolbar>
+			</AppBar>
+		</div>
 	)
 }
 

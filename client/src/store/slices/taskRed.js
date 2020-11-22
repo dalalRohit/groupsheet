@@ -31,6 +31,9 @@ const taskSlice = createSlice({
 			tasks.push(payload.payload)
 			state.tasks = tasks
 		},
+		clearTasks: (state) => {
+			state.tasks = []
+		},
 	},
 })
 const actions = taskSlice.actions
@@ -39,8 +42,10 @@ export const taskActions = {
 	loaded: actions.loaded,
 	loading: actions.loading,
 	setTasks: actions.setTasks,
+	clearTasks: actions.clearTasks,
+	newTask: actions.newTask,
 }
-export const { loading, setTasks, newTask } = actions
+export const { loading, setTasks, newTask, clearTasks } = actions
 export const taskSelector = (state) => state.tasks
 export default taskSlice.reducer
 
@@ -59,9 +64,9 @@ const getTasks = (grpId) => async (dispatch) => {
 }
 
 const addTask = (data) => async (dispatch, getState) => {
-	const { users } = getState()
+	const { users, groups } = getState()
 	data['username'] = users.user.username
-	socket.emit('newTask', data)
+	socket.emit('newTask', { task: data, room: groups.group.grp_name })
 }
 
 const addNewTask = (newTaskData) => async (dispatch, getState) => {

@@ -21,7 +21,6 @@ export const grpSlice = createSlice({
 			state.fetching_group = true
 		},
 		setGroup: (state, payload) => {
-			console.log(payload)
 			if (payload.payload.clear && state.details) state.details = false
 			state.fetching_group = false
 			state.group = payload.payload.group
