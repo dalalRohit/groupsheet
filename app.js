@@ -8,7 +8,6 @@ var logger = require('morgan')
 require('./db/db')
 
 //Route files
-var indexRouter = require('./routes/index')
 var tasksRouter = require('./routes/tasks')
 var usersRouter = require('./routes/users')
 var groupsRouter = require('./routes/groups')
@@ -18,20 +17,22 @@ var app = express()
 
 app.use(logger('dev'))
 app.use(express.json())
-app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
 app.use('/tasks', tasksRouter)
 app.use('/users', usersRouter)
 app.use('/groups', groupsRouter)
 app.use('/queries', queriesRouter)
+app.use(express.static(path.join(__dirname, 'client/build')))
+
+if (process.env.NODE_ENV === 'production') {
+	//serve static content
+}
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	next(createError(404, 'Page not found!'))
+	res.sendFile(path.join(__dirname, 'client/build/index.html'))
 })
 
 // error handler
